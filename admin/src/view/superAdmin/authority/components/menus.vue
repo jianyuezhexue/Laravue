@@ -19,7 +19,7 @@
   </div>
 </template>
 <script>
-import { getBaseMenuTree, getMenuAuthority } from "@/api/menu";
+import { getBaseMenuTree } from "@/api/menu";
 import { addMenuAuthority } from "@/api/authority";
 
 export default {
@@ -74,18 +74,6 @@ export default {
     // 获取所有菜单树
     const res = await getBaseMenuTree();
     this.menuTreeData = res.data.menus;
-
-    // 获取此角色拥有的菜单
-    // const res1 = await getMenuAuthority({ authority_id: this.row.authority_id })
-    // const menus = res1.data.menus
-    // const arr = []
-    // menus.map(item => {
-    //   // 防止直接选中父级造成全选
-    //   if (!menus.some(same => same.parentId === item.menuId)) {
-    //     arr.push(Number(item.menuId))
-    //   }
-    // })
-    // this.menuTreeIds = arr
     this.menuTreeIds = this.row.menu_ids;
   },
 };
