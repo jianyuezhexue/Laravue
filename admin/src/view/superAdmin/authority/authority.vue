@@ -95,7 +95,7 @@
 
     <el-drawer
       :visible.sync="drawer"
-      :with-header="false"
+      :with-header="true"
       size="40%"
       title="角色配置"
       v-if="drawer"
@@ -104,12 +104,12 @@
         <el-tab-pane label="角色菜单">
           <Menus :row="activeRow" ref="menus" />
         </el-tab-pane>
-        <el-tab-pane label="角色api">
+        <!-- <el-tab-pane label="角色按钮">
           <apis :row="activeRow" ref="apis" />
-        </el-tab-pane>
-        <el-tab-pane label="资源权限">
+        </el-tab-pane> -->
+        <!-- <el-tab-pane label="资源权限">
           <Datas :authority="tableData" :row="activeRow" ref="datas" />
-        </el-tab-pane>
+        </el-tab-pane> -->
       </el-tabs>
     </el-drawer>
   </div>
@@ -126,8 +126,8 @@ import {
 } from "@/api/authority";
 
 import Menus from "@/view/superAdmin/authority/components/menus";
-import Apis from "@/view/superAdmin/authority/components/apis";
-import Datas from "@/view/superAdmin/authority/components/datas";
+// import Apis from "@/view/superAdmin/authority/components/apis";
+// import Datas from "@/view/superAdmin/authority/components/datas";
 
 import infoList from "@/components/mixins/infoList";
 export default {
@@ -161,6 +161,7 @@ export default {
         authority_id: "",
         authority_name: "",
         parent_id: "0",
+        menu_ids: [],
       },
       rules: {
         authority_id: [
@@ -178,8 +179,8 @@ export default {
   },
   components: {
     Menus,
-    Apis,
-    Datas,
+    // Apis,
+    // Datas,
   },
   methods: {
     autoEnter(activeName, oldActiveName) {
@@ -200,6 +201,7 @@ export default {
         this.form[k] = row[k];
       }
       this.form.authority_id = this.form.authority_id + 1;
+      this.form.menu_ids = row.menu_ids;
       this.copyForm = row;
       this.dialogFormVisible = true;
     },

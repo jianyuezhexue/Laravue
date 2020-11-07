@@ -28,6 +28,18 @@ class MenuController extends Controller
     }
 
     /**
+     * 获取所有菜单数据
+     * @param Request $request
+     * @return JSON
+     */
+    public function async(Request $request)
+    {
+        $data = $request->all();
+        $result = $this->menuServer->async($data);
+        return response()->json($result);
+    }
+
+    /**
      * 获取所有菜单分页数据
      * @param Request $request
      * @return JSON

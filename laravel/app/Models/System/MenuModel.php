@@ -15,8 +15,8 @@ class MenuModel extends Model
     const UPDATED_AT = 'updated_at';
 
     protected $fillable = [
-        "id", "created_at", "updated_at", "deleted_at", "menu_level", "parent_id", "path", "name",
-        "hidden", "component", "sort", "keep_alive", "default_menu", "title", "icon", "meta"
+        "id", "created_at", "updated_at", "deleted_at", "menu_level", "parent_id",
+        "path", "name", "hidden", "component", "sort", "meta"
     ];
 
     protected $casts = [

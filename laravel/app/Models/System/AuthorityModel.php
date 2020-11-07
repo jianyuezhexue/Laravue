@@ -15,6 +15,10 @@ class AuthorityModel extends Model
     const UPDATED_AT = 'updated_at';
 
     protected $fillable = [
-        "authority_id", "authority_name", "parent_id"
+        "authority_id", "authority_name", "parent_id", "menu_ids"
+    ];
+
+    protected $casts = [
+        'menu_ids' => 'array',
     ];
 }

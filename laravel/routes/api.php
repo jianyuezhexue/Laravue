@@ -41,6 +41,7 @@ Route::namespace('App\Http\Controllers\System')->group(function () {
     /** 菜单管理 */
     Route::group(['prefix' => 'menu', 'middleware' => ['auth.jwt']], function () {
         Route::get('/', 'MenuController@all');
+        Route::get('/async', 'MenuController@async');
         Route::get('/find/{id}', 'MenuController@find');
         Route::get('/list', 'MenuController@list');
         Route::post('/', 'MenuController@create');

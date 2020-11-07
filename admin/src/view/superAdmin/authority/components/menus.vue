@@ -1,7 +1,9 @@
 <template>
   <div>
     <div class="clearflex">
-      <el-button @click="relation" class="fl-right" size="small" type="primary">确 定</el-button>
+      <el-button @click="relation" class="fl-right" size="small" type="primary"
+        >确 定</el-button
+      >
     </div>
     <el-tree
       :data="menuTreeData"
@@ -10,79 +12,83 @@
       @check="nodeChange"
       default-expand-all
       highlight-current
-      node-key="ID"
+      node-key="id"
       ref="menuTree"
       show-checkbox
     ></el-tree>
   </div>
 </template>
 <script>
-import { getBaseMenuTree, getMenuAuthority, addMenuAuthority } from '@/api/menu'
+import { getBaseMenuTree, getMenuAuthority } from "@/api/menu";
+import { addMenuAuthority } from "@/api/authority";
 
 export default {
-  name: 'Menus',
+  name: "Menus",
   props: {
     row: {
-      default: function() {
-        return {}
+      default: function () {
+        return {};
       },
-      type: Object
-    }
+      type: Object,
+    },
   },
   data() {
     return {
       menuTreeData: [],
       menuTreeIds: [],
-      needConfirm:false,
+      needConfirm: false,
       menuDefaultProps: {
-        children: 'children',
-        label: function(data){
-          return data.meta.title
-        }
-      }
-    }
+        children: "children",
+        label: function (data) {
+          return data.meta.title;
+        },
+      },
+    };
   },
   methods: {
-    nodeChange(){
-      this.needConfirm = true
+    nodeChange() {
+      this.needConfirm = true;
     },
     // 暴露给外层使用的切换拦截统一方法
-    enterAndNext(){
-      this.relation()
+    enterAndNext() {
+      this.relation();
     },
     // 关联树 确认方法
     async relation() {
-      const checkArr = this.$refs.menuTree.getCheckedNodes(false, true)
-      const res = await addMenuAuthority({
-        menus: checkArr,
-        authority_id: this.row.authority_id
-      })
+      const checkArr = this.$refs.menuTree.getCheckedNodes(false, false);
+      let ids = [];
+      checkArr.map((item) => {
+        ids.push(item.id);
+      });
+      this.row.menu_ids = ids;
+      const res = await addMenuAuthority(this.row.authority_id, this.row);
       if (res.code == 200) {
         this.$message({
-          type: 'success',
-          message: '菜单设置成功!'
-        })
+          type: "success",
+          message: "菜单设置成功!",
+        });
       }
-    }
+    },
   },
   async created() {
     // 获取所有菜单树
-    const res = await getBaseMenuTree()
-    this.menuTreeData = res.data.menus
+    const res = await getBaseMenuTree();
+    this.menuTreeData = res.data.menus;
 
     // 获取此角色拥有的菜单
-    const res1 = await getMenuAuthority({ authority_id: this.row.authority_id })
-    const menus = res1.data.menus
-    const arr = []
-    menus.map(item => {
-      // 防止直接选中父级造成全选
-      if (!menus.some(same => same.parentId === item.menuId)) {
-        arr.push(Number(item.menuId))
-      }
-    })
-    this.menuTreeIds = arr
-  }
-}
+    // const res1 = await getMenuAuthority({ authority_id: this.row.authority_id })
+    // const menus = res1.data.menus
+    // const arr = []
+    // menus.map(item => {
+    //   // 防止直接选中父级造成全选
+    //   if (!menus.some(same => same.parentId === item.menuId)) {
+    //     arr.push(Number(item.menuId))
+    //   }
+    // })
+    // this.menuTreeIds = arr
+    this.menuTreeIds = this.row.menu_ids;
+  },
+};
 </script>
 <style lang="scss">
 </style>

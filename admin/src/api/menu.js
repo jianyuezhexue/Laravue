@@ -3,7 +3,7 @@ import service from '@/utils/request'
 // 用户登录 获取动态路由
 export const asyncMenu = () => {
     return service({
-        url: "/menu/",
+        url: "/menu/async",
         method: 'GET',
     })
 }
