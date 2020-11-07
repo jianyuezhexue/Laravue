@@ -1,3 +1,4 @@
 admin/node_modules/
+admin/dist/
 laravel/vendor/
 admin/debug.log
