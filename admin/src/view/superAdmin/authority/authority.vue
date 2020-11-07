@@ -123,7 +123,6 @@ import {
   deleteAuthority,
   createAuthority,
   updateAuthority,
-  copyAuthority,
 } from "@/api/authority";
 
 import Menus from "@/view/superAdmin/authority/components/menus";
