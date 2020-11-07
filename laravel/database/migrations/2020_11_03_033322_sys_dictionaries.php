@@ -1,0 +1,46 @@
+<?php
+
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Support\Facades\DB;
+
+class SysDictionaries extends Migration
+{
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        Schema::create('sys_dictionaries', function (Blueprint $table) {
+             $table->engine = 'InnoDB';
+             $table->charset = 'utf8mb4';
+             $table->collation = 'utf8mb4_general_ci';
+            // CONTENT
+            $table->bigIncrements('id')->nullable(false)->comment('');
+			$table->datetime('created_at')->nullable()->default(null)->comment('');
+			$table->datetime('updated_at')->nullable()->default(null)->comment('');
+			$table->datetime('deleted_at')->nullable()->default(null)->comment('');
+			$table->string('name', 191)->nullable()->default(null)->comment('字典名（中）');
+			$table->string('type', 191)->nullable()->default(null)->comment('字典名（英）');
+			$table->boolean('status')->nullable()->default(null)->comment('状态');
+			$table->string('desc', 191)->nullable()->default(null)->comment('描述');
+			$table->index('deleted_at', 'idx_sys_dictionaries_deleted_at');
+			
+        });
+
+        
+    }
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::dropIfExists('sys_dictionaries');
+    }
+}
