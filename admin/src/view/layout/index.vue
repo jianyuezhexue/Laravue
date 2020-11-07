@@ -33,7 +33,7 @@
                 <el-dropdown>
                   <span class="header-avatar">
                     欢迎您，<CustomPic/>
-                    <span style="margin-left: 5px">{{userInfo.nickName}}</span>
+                    <span style="margin-left: 5px">{{userInfo.nick_name}}</span>
                     <i class="el-icon-arrow-down"></i>
                   </span>
                   <el-dropdown-menu class="dropdown-group" slot="dropdown">
@@ -162,7 +162,7 @@ export default {
       this.$refs.modifyPwdForm.validate(valid => {
         if (valid) {
           changePassword({
-            username: this.userInfo.userName,
+            username: this.userInfo.user_name,
             password: this.pwdModify.password,
             newPassword: this.pwdModify.newPassword
           }).then(() => {

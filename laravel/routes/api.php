@@ -23,9 +23,10 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 | 1.系统相关
 |--------------------------------------------------------------------------
 |
-| 系统相关：包含用户管理，菜单（路由）管理，角色管理，权限管理，
-| 用户管理：注册/登录/修改密码/设置用户权限/删除用户/设置用户信息/分页获取用户列表
-| is assigned the "api" middleware group. Enjoy building your API!
+| 系统相关：用户管理，菜单（路由）管理，角色管理，权限管理，
+| 用户管理：注册/登录/修改密码/设置用户权限/删除用户/设置用户角色/分页获取用户列表
+| 菜单管理：
+| 角色管理：
 |
 */
 Route::namespace('App\Http\Controllers\System')->group(function () {
@@ -34,8 +35,10 @@ Route::namespace('App\Http\Controllers\System')->group(function () {
         Route::post('register', 'UserController@register');
         Route::post('login', 'UserController@login');
         Route::group(['middleware' => ['auth.jwt']], function () {
-            Route::get('list', 'UserController@userList');
+            Route::put('setAuthority/{uuid}', 'UserController@setAuthority');
+            Route::post('list', 'UserController@userList');
             Route::post('loginOut', 'UserController@loginOut');
+            Route::delete('/{id}', 'UserController@destroy');
         });
     });
     /** 菜单管理 */

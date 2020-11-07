@@ -1,109 +1,77 @@
 import service from '@/utils/request'
 
-// @Summary 用户登录
-// @Produce  application/json
-// @Param data body {username:"string",password:"string"}
-// @Router /base/login [post]
+// 用户登录
 export const login = (data) => {
     return service({
         url: "/user/login",
-        method: 'post',
+        method: 'POST',
         data: data
     })
 }
 
-// @Summary 获取验证码
-// @Produce  application/json
-// @Param data body {username:"string",password:"string"}
-// @Router /base/captcha [post]
+// 用户注销
+export const loginOut = (data) => {
+    return service({
+        url: "/user/loginOut",
+        method: 'POST',
+        data: data
+    })
+}
+
+// 获取验证码
 export const captcha = (data) => {
     return service({
         url: "/base/captcha",
-        method: 'post',
+        method: 'POST',
         data: data
     })
 }
 
-// @Summary 用户注册
-// @Produce  application/json
-// @Param data body {username:"string",password:"string"}
-// @Router /base/resige [post]
+// 用户注册
 export const register = (data) => {
     return service({
-        url: "/base/register",
-        method: 'post',
+        url: "/user/register",
+        method: 'POST',
         data: data
     })
 }
-// @Summary 修改密码
-// @Produce  application/json
-// @Param data body {username:"string",password:"string",newPassword:"string"}
-// @Router /user/changePassword [post]
+// 修改密码
 export const changePassword = (data) => {
     return service({
         url: "/user/changePassword",
-        method: 'post',
+        method: 'POST',
         data: data
     })
 }
-// @Tags User
-// @Summary 分页获取用户列表
-// @Security ApiKeyAuth
-// @accept application/json
-// @Produce application/json
-// @Param data body modelInterface.PageInfo true "分页获取用户列表"
-// @Success 200 {string} json "{"success":true,"data":{},"msg":"获取成功"}"
-// @Router /user/getUserList [post]
+// 分页获取用户列表
 export const getUserList = (data) => {
     return service({
-        url: "/user/getUserList",
-        method: 'post',
+        url: "/user/list",
+        method: 'POST',
         data: data
     })
 }
 
 
-// @Tags User
-// @Summary 设置用户权限
-// @Security ApiKeyAuth
-// @accept application/json
-// @Produce application/json
-// @Param data body api.SetUserAuth true "设置用户权限"
-// @Success 200 {string} json "{"success":true,"data":{},"msg":"修改成功"}"
-// @Router /user/setUserAuthority [post]
-export const setUserAuthority = (data) => {
+// 设置用户权限
+export const setUserAuthority = (uuid, data) => {
     return service({
-        url: "/user/setUserAuthority",
-        method: 'post',
+        url: `/user/setAuthority/${uuid}`,
+        method: 'PUT',
         data: data
     })
 }
 
 
-// @Tags SysUser
-// @Summary 删除用户
-// @Security ApiKeyAuth
-// @accept application/json
-// @Produce application/json
-// @Param data body request.SetUserAuth true "删除用户"
-// @Success 200 {string} string "{"success":true,"data":{},"msg":"修改成功"}"
-// @Router /user/deleteUser [delete]
-export const deleteUser = (data) => {
+// 删除用户
+export const deleteUser = (id) => {
     return service({
-        url: "/user/deleteUser",
-        method: 'delete',
-        data: data
+        url: `/user/${id}`,
+        method: 'DELETE',
     })
 }
 
-// @Tags SysUser
-// @Summary 设置用户信息
-// @Security ApiKeyAuth
-// @accept application/json
-// @Produce application/json
-// @Param data body model.SysUser true "设置用户信息"
-// @Success 200 {string} string "{"success":true,"data":{},"msg":"修改成功"}"
-// @Router /user/setUserInfo [put]
+// 设置用户信息
 export const setUserInfo = (data) => {
     return service({
         url: "/user/setUserInfo",

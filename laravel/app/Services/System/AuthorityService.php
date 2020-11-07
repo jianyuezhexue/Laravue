@@ -21,6 +21,27 @@ class AuthorityService extends Service
     }
 
     /**
+     * 重写添加数据
+     * @param array $data
+     * @return ResultHelper
+     */
+    public function create(array $data)
+    {
+        try {
+            // 查重
+            $checkRepeat = $this->model->where('authority_id', $data['authority_id'])->first();
+            if ($checkRepeat) {
+                return $this->failed(Response::HTTP_BAD_REQUEST, "角色ID重复,请更改！", []);
+            }
+            $result = $this->model->fill($data)->save();
+            $result = $this->success(Response::HTTP_OK, '添加数据成功！', $result);
+        } catch (\Exception $ex) {
+            $result = $this->failed(Response::HTTP_INTERNAL_SERVER_ERROR, $ex->getMessage());
+        }
+        return $result;
+    }
+
+    /**
      * 重写获取所有角色
      * @param array $data
      * @return ResultHelper

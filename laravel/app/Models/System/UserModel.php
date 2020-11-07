@@ -35,4 +35,10 @@ class UserModel extends Authenticatable implements JWTSubject
     {
         return [];
     }
+
+    // 关联角色表
+    public function authority()
+    {
+        return $this->hasOne('App\Models\System\AuthorityModel','authority_id','authority_id');
+    }
 }

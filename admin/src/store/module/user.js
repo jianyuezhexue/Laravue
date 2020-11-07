@@ -1,5 +1,5 @@
-import { login } from '@/api/user'
-import { jsonInBlacklist } from '@/api/jwt'
+import { login,loginOut } from '@/api/user'
+// import { jsonInBlacklist } from '@/api/jwt'
 import router from '@/router/index'
 export const user = {
     namespaced: true,
@@ -51,7 +51,7 @@ export const user = {
             }
         },
         async LoginOut({ commit }) {
-            const res = await jsonInBlacklist()
+            const res = await loginOut()
             if (res.code == 200) {
                 commit("LoginOut")
             }
