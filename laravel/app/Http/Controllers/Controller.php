@@ -38,8 +38,8 @@ class Controller extends BaseController
     {
         // 对请求数据进行分流
         $params = $request->all();
-        $this->pageInfo['page'] = $params['page'];
-        $this->pageInfo['pageSize'] = $params['pageSize'];
+        $this->pageInfo['page'] = $params['page'] ?? 1;
+        $this->pageInfo['pageSize'] = $params['pageSize'] ?? 10;
         unset($params['page']);
         unset($params['pageSize']);
         $this->searchInfo = $params;

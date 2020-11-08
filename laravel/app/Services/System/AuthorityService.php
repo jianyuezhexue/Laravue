@@ -43,13 +43,14 @@ class AuthorityService extends Service
 
     /**
      * 重写获取所有角色
-     * @param array $data
+     * @param array $pageInfo
+     * @param array $pageInfo
      * @return ResultHelper
      */
-    public function list(array $data)
+    public function list(array $pageInfo, array $searchInfo)
     {
         try {
-            $result = $this->model->where($data)->get()->toArray();
+            $result = $this->model->get()->toArray();
             $result = Tree::makeTree($result, ['primary_key' => 'authority_id']);
             $result = $this->success(Response::HTTP_OK, '获取分页数据成功！', ["list" => $result]);
         } catch (\Exception $ex) {
