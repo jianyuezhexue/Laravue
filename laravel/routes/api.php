@@ -69,6 +69,15 @@ Route::namespace('App\Http\Controllers\System')->group(function () {
         Route::put('/{id}', 'DictionaryController@update');
         Route::delete('/{id}', 'DictionaryController@destroy');
     });
+    /** 文件管理 */
+    Route::group(['prefix' => 'file', 'middleware' => ['auth.jwt']], function () {
+        Route::get('/', 'FileController@all');
+        Route::get('/find/{id}', 'FileController@find');
+        Route::get('/list', 'FileController@list');
+        Route::post('/', 'FileController@create');
+        Route::put('/{id}', 'FileController@update');
+        Route::delete('/{id}', 'FileController@destroy');
+    });
 });
 
 /** 2.基础数据 */
