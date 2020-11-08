@@ -14,7 +14,7 @@ import service from '@/utils/request'
 export const getApiList = (data) => {
     return service({
         url: "/api/getApiList",
-        method: 'post',
+        method: 'POST',
         data
     })
 }
@@ -31,7 +31,7 @@ export const getApiList = (data) => {
 export const createApi = (data) => {
     return service({
         url: "/api/createApi",
-        method: 'post',
+        method: 'POST',
         data
     })
 }
@@ -47,7 +47,7 @@ export const createApi = (data) => {
 export const getApiById = (data) => {
     return service({
         url: "/api/getApiById",
-        method: 'post',
+        method: 'POST',
         data
     })
 }
@@ -65,7 +65,7 @@ export const getApiById = (data) => {
 export const updateApi = (data) => {
     return service({
         url: "/api/updateApi",
-        method: 'post',
+        method: 'POST',
         data
     })
 }
@@ -81,7 +81,7 @@ export const updateApi = (data) => {
 export const setAuthApi = (data) => {
     return service({
         url: "/api/setAuthApi",
-        method: 'post',
+        method: 'POST',
         data
     })
 }
@@ -96,7 +96,7 @@ export const setAuthApi = (data) => {
 export const getAllApis = (data) => {
     return service({
         url: "/api/getAllApis",
-        method: 'post',
+        method: 'POST',
         data
     })
 }
@@ -112,7 +112,7 @@ export const getAllApis = (data) => {
 export const deleteApi = (data) => {
     return service({
         url: "/api/deleteApi",
-        method: 'post',
+        method: 'POST',
         data
     })
 }

@@ -36,8 +36,14 @@ class Controller extends BaseController
      */
     public function list(Request $request)
     {
-        $data = $request->all();
-        $result = $this->server->list($data);
+        // 对请求数据进行分流
+        $params = $request->all();
+        $this->pageInfo['page'] = $params['page'];
+        $this->pageInfo['pageSize'] = $params['pageSize'];
+        unset($params['page']);
+        unset($params['pageSize']);
+        $this->searchInfo = $params;
+        $result = $this->server->list($this->pageInfo, $this->searchInfo);
         return response()->json($result);
     }
 

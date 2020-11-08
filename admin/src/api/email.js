@@ -9,7 +9,7 @@ import service from '@/utils/request'
 export const emailTest = (data) => {
     return service({
         url: "/email/emailTest",
-        method: 'post',
+        method: 'POST',
         data
     })
 }

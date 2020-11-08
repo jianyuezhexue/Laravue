@@ -11,7 +11,7 @@ import service from '@/utils/request'
 export const findFile = (params) => {
     return service({
         url: "/fileUploadAndDownload/findFile",
-        method: 'get',
+        method: 'GET',
         params
     })
 }
@@ -21,7 +21,7 @@ export const findFile = (params) => {
 export const breakpointContinueFinish = (params) => {
     return service({
         url: "/fileUploadAndDownload/breakpointContinueFinish",
-        method: 'post',
+        method: 'POST',
         params
     })
 }
@@ -29,7 +29,7 @@ export const breakpointContinueFinish = (params) => {
 export const removeChunk = (data, params) => {
     return service({
         url: "/fileUploadAndDownload/removeChunk",
-        method: 'post',
+        method: 'POST',
         data,
         params
     })

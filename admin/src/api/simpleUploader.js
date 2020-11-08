@@ -13,7 +13,7 @@ import service from '@/utils/request'
 export const checkFileMd5 = (params) => {
     return service({
         url: "/simpleUploader/checkFileMd5",
-        method: 'get',
+        method: 'GET',
         params
     })
 }
@@ -29,7 +29,7 @@ export const checkFileMd5 = (params) => {
 export const mergeFileMd5 = (params) => {
     return service({
         url: "/simpleUploader/mergeFileMd5",
-        method: 'get',
+        method: 'GET',
         params
     })
 }

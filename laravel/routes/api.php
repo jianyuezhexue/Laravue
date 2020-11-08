@@ -60,6 +60,15 @@ Route::namespace('App\Http\Controllers\System')->group(function () {
         Route::put('/{id}', 'AuthorityController@update');
         Route::delete('/{id}', 'AuthorityController@destroy');
     });
+    /** 数据字典 */
+    Route::group(['prefix' => 'dictionary', 'middleware' => ['auth.jwt']], function () {
+        Route::get('/', 'DictionaryController@all');
+        Route::get('/find/{id}', 'DictionaryController@find');
+        Route::get('/list', 'DictionaryController@list');
+        Route::post('/', 'DictionaryController@create');
+        Route::put('/{id}', 'DictionaryController@update');
+        Route::delete('/{id}', 'DictionaryController@destroy');
+    });
 });
 
 /** 2.基础数据 */

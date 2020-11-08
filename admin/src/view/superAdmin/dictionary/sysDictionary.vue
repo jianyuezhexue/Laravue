@@ -42,9 +42,10 @@
       tooltip-effect="dark"
     >
     <el-table-column type="selection" width="55"></el-table-column>
-    <el-table-column label="日期" width="180">
+    <el-table-column label="日期" prop="created_at" width="180"></el-table-column>
+    <!-- <el-table-column label="日期" width="180">
          <template slot-scope="scope">{{scope.row.CreatedAt|formatDate}}</template>
-    </el-table-column>
+    </el-table-column> -->
     
     <el-table-column label="字典名（中）" prop="name" width="120"></el-table-column> 
     

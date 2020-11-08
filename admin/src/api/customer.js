@@ -11,7 +11,7 @@ import service from '@/utils/request'
 export const createExaCustomer = (data) => {
     return service({
         url: "/customer/customer",
-        method: 'post',
+        method: 'POST',
         data
     })
 }
@@ -46,7 +46,7 @@ export const updateExaCustomer = (data) => {
 export const deleteExaCustomer = (data) => {
     return service({
         url: "/customer/customer",
-        method: 'delete',
+        method: 'DELETE',
         data
     })
 }
@@ -63,7 +63,7 @@ export const deleteExaCustomer = (data) => {
 export const getExaCustomer = (params) => {
     return service({
         url: "/customer/customer",
-        method: 'get',
+        method: 'GET',
         params
     })
 }
@@ -80,7 +80,7 @@ export const getExaCustomer = (params) => {
 export const getExaCustomerList = (params) => {
     return service({
         url: "/customer/customerList",
-        method: 'get',
+        method: 'GET',
         params
     })
 }

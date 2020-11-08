@@ -10,7 +10,7 @@ import service from '@/utils/request'
 export const getFileList = (data) => {
     return service({
         url: "/fileUploadAndDownload/getFileList",
-        method: "post",
+        method: "POST",
         data
     })
 }
@@ -25,7 +25,7 @@ export const getFileList = (data) => {
 export const deleteFile = (data) => {
     return service({
         url: "/fileUploadAndDownload/deleteFile",
-        method: "post",
+        method: "POST",
         data
     })
 }

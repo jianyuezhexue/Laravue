@@ -11,7 +11,7 @@ import service from '@/utils/request'
 export const deleteSysOperationRecord = (data) => {
     return service({
         url: "/sysOperationRecord/deleteSysOperationRecord",
-        method: 'delete',
+        method: 'DELETE',
         data
     })
 }
@@ -27,7 +27,7 @@ export const deleteSysOperationRecord = (data) => {
 export const deleteSysOperationRecordByIds = (data) => {
     return service({
         url: "/sysOperationRecord/deleteSysOperationRecordByIds",
-        method: 'delete',
+        method: 'DELETE',
         data
     })
 }
@@ -43,7 +43,7 @@ export const deleteSysOperationRecordByIds = (data) => {
 export const getSysOperationRecordList = (params) => {
     return service({
         url: "/sysOperationRecord/getSysOperationRecordList",
-        method: 'get',
+        method: 'GET',
         params
     })
 }

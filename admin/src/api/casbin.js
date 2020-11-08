@@ -12,7 +12,7 @@ import service from '@/utils/request'
 export const UpdateCasbin = (data) => {
     return service({
         url: "/casbin/updateCasbin",
-        method: 'post',
+        method: 'POST',
         data
     })
 }
@@ -29,7 +29,7 @@ export const UpdateCasbin = (data) => {
 export const getPolicyPathByAuthorityId = (data) => {
     return service({
         url: "/casbin/getPolicyPathByAuthorityId",
-        method: 'post',
+        method: 'POST',
         data
     })
 }

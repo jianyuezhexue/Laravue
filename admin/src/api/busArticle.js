@@ -11,7 +11,7 @@ import service from '@/utils/request'
 export const createBusArticle = (data) => {
      return service({
          url: "/busArticle/createBusArticle",
-         method: 'post',
+         method: 'POST',
          data
      })
  }
@@ -28,7 +28,7 @@ export const createBusArticle = (data) => {
  export const deleteBusArticle = (data) => {
      return service({
          url: "/busArticle/deleteBusArticle",
-         method: 'delete',
+         method: 'DELETE',
          data
      })
  }
@@ -44,7 +44,7 @@ export const createBusArticle = (data) => {
  export const deleteBusArticleByIds = (data) => {
      return service({
          url: "/busArticle/deleteBusArticleByIds",
-         method: 'delete',
+         method: 'DELETE',
          data
      })
  }
@@ -77,7 +77,7 @@ export const createBusArticle = (data) => {
  export const findBusArticle = (params) => {
      return service({
          url: "/busArticle/findBusArticle",
-         method: 'get',
+         method: 'GET',
          params
      })
  }
@@ -94,7 +94,7 @@ export const createBusArticle = (data) => {
  export const getBusArticleList = (params) => {
      return service({
          url: "/busArticle/getBusArticleList",
-         method: 'get',
+         method: 'GET',
          params
      })
  }

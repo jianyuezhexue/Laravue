@@ -14,7 +14,7 @@ import service from '@/utils/request'
 export const createTemp = (data) => {
     return service({
         url: "/autoCode/createTemp",
-        method: 'post',
+        method: 'POST',
         data,
         responseType: 'blob'
     })
@@ -31,7 +31,7 @@ export const createTemp = (data) => {
 export const getDB = () => {
     return service({
         url: "/autoCode/getDB",
-        method: 'get',
+        method: 'GET',
     })
 }
 
@@ -47,7 +47,7 @@ export const getDB = () => {
 export const getTable = (params) => {
     return service({
         url: "/autoCode/getTables",
-        method: 'get',
+        method: 'GET',
         params,
     })
 }
@@ -62,7 +62,7 @@ export const getTable = (params) => {
 export const getColume = (params) => {
     return service({
         url: "/autoCode/getColume",
-        method: 'get',
+        method: 'GET',
         params,
     })
 }

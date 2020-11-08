@@ -79,7 +79,7 @@ class UserService
     }
 
     /**
-     * 用户重置juese
+     * 用户重置角色
      * @param string $uuid
      * @param array $data
      * @return Response

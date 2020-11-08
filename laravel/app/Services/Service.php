@@ -11,6 +11,11 @@ class Service
     protected $model;
 
     /**
+     * 模糊查询Key
+     */
+    protected $likeSearch = "";
+
+    /**
      * 获取所有数据
      * @param array $data
      * @return ResultHelper
@@ -28,14 +33,23 @@ class Service
 
     /**
      * 获取所有数据
-     * @param array $data
+     * @param array $pageInfo
+     * @param array $searchInfo
      * @return ResultHelper
      */
-    public function list(array $data)
+    public function list(array $pageInfo, array $searchInfo)
     {
         try {
-            $result = $this->model->where($data)->get()->toArray();
-            $result = $this->success(Response::HTTP_OK, '获取分页数据成功！', ["list" => $result]);
+            // 备注：这里的模糊查询不能命中索引，适合小数量数据查询
+            if ($this->likeSearch != "" && isset($searchInfo[$this->likeSearch])) {
+                $like = $searchInfo[$this->likeSearch];
+                unset($searchInfo[$this->likeSearch]);
+                $result = $this->model->where($searchInfo)->where($this->likeSearch, "like", "%" . $like . "%")
+                    ->paginate($pageInfo['pageSize'])->toArray();
+            } else {
+                $result = $this->model->where($searchInfo)->paginate($pageInfo['pageSize'])->toArray();
+            }
+            $result = $this->tableData(Response::HTTP_OK, '获取分页数据成功！', $result);
         } catch (\Exception $ex) {
             $result = $this->failed(Response::HTTP_INTERNAL_SERVER_ERROR, $ex->getMessage());
         }

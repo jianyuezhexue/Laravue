@@ -9,7 +9,7 @@ import service from '@/utils/request'
 export const createWorkFlow = (data) => {
     return service({
         url: "/workflow/createWorkFlow",
-        method: 'post',
+        method: 'POST',
         data
     })
 }

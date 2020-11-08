@@ -36,9 +36,9 @@ trait ResultHelper
             'msg' => $msg,
             'data' => [
                 'list' => $data['data'],
-                'page' => $data['current_page'],
-                'pageSize' => $data['per_page'],
-                'total' => $data['total'],
+                'page' => (int)$data['current_page'],
+                'pageSize' => (int)$data['per_page'],
+                'total' => (int)$data['total'],
             ],
         ];
     }

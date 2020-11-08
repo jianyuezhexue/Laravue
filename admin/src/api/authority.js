@@ -31,7 +31,7 @@ export const createAuthority = (data) => {
 export const copyAuthority = (data) => {
     return service({
         url: "/authority/copyAuthority",
-        method: 'post',
+        method: 'POST',
         data
     })
 }
@@ -40,7 +40,7 @@ export const copyAuthority = (data) => {
 export const setDataAuthority = (data) => {
     return service({
         url: "/authority/setDataAuthority",
-        method: 'post',
+        method: 'POST',
         data
     })
 }

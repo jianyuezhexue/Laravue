@@ -38,7 +38,7 @@ export const getBaseMenuTree = () => {
 export const addMenuAuthority = (data) => {
     return service({
         url: "/menu/addMenuAuthority",
-        method: 'post',
+        method: 'POST',
         data
     })
 }
@@ -47,7 +47,7 @@ export const addMenuAuthority = (data) => {
 export const getMenuAuthority = (data) => {
     return service({
         url: "/menu/getMenuAuthority",
-        method: 'post',
+        method: 'POST',
         data
     })
 }
