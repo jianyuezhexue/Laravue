@@ -3,36 +3,34 @@ import service from '@/utils/request'
 // 创建SysDictionary
 export const createSysDictionary = (data) => {
     return service({
-        url: "/sysDictionary/createSysDictionary",
+        url: "/dictionary",
         method: 'POST',
         data
     })
 }
 
 // 删除SysDictionary
-export const deleteSysDictionary = (data) => {
+export const deleteSysDictionary = (id) => {
     return service({
-        url: "/sysDictionary/deleteSysDictionary",
+        url: `/dictionary/${id}`,
         method: 'DELETE',
-        data
     })
 }
 
 // 更新SysDictionary
-export const updateSysDictionary = (data) => {
+export const updateSysDictionary = (id, data) => {
     return service({
-        url: "/sysDictionary/updateSysDictionary",
+        url: `/dictionary/${id}`,
         method: 'PUT',
         data
     })
 }
 
 // 用id查询SysDictionary
-export const findSysDictionary = (params) => {
+export const findSysDictionary = (id) => {
     return service({
-        url: "/sysDictionary/findSysDictionary",
+        url: `/dictionary/find/${id}`,
         method: 'GET',
-        params
     })
 }
 
