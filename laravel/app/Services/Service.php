@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Utils\ResultHelper;
+use Illuminate\Support\Facades\DB;
 use Symfony\Component\HttpFoundation\Response;
 
 class Service
@@ -45,9 +46,9 @@ class Service
                 $like = $searchInfo[$this->likeSearch];
                 unset($searchInfo[$this->likeSearch]);
                 $result = $this->model->where($searchInfo)->where($this->likeSearch, "like", "%" . $like . "%")
-                    ->paginate($pageInfo['pageSize'])->toArray();
+                    ->orderBy('id', 'desc')->paginate($pageInfo['pageSize'])->toArray();
             } else {
-                $result = $this->model->where($searchInfo)->paginate($pageInfo['pageSize'])->toArray();
+                $result = $this->model->where($searchInfo)->orderBy('id', 'desc')->paginate($pageInfo['pageSize'])->toArray();
             }
             $result = $this->tableData(Response::HTTP_OK, '获取分页数据成功！', $result);
         } catch (\Exception $ex) {
@@ -79,11 +80,14 @@ class Service
      */
     public function destroy($id)
     {
+        DB::beginTransaction();
         try {
             $result = $this->model->destroy($id);
             $result = $this->success(Response::HTTP_OK, '删除数据成功', $result);
+            DB::commit();
         } catch (\Exception $ex) {
             $result = $this->failed(Response::HTTP_INTERNAL_SERVER_ERROR, $ex->getMessage());
+            DB::rollBack();
         }
         return $result;
     }

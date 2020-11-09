@@ -2,46 +2,44 @@ import service from '@/utils/request'
 
 // 创建SysDictionaryDetail
 export const createSysDictionaryDetail = (data) => {
-     return service({
-         url: "/dictionaryDetail/createSysDictionaryDetail",
-         method: 'POST',
-         data
-     })
- }
+    return service({
+        url: "/dictionaryDetail",
+        method: 'POST',
+        data
+    })
+}
 
 
 // 删除SysDictionaryDetail
- export const deleteSysDictionaryDetail = (data) => {
-     return service({
-         url: "/dictionaryDetail/deleteSysDictionaryDetail",
-         method: 'DELETE',
-         data
-     })
- }
+export const deleteSysDictionaryDetail = (id) => {
+    return service({
+        url: `/dictionaryDetail/${id}`,
+        method: 'DELETE',
+    })
+}
 
 // 更新SysDictionaryDetail
- export const updateSysDictionaryDetail = (data) => {
-     return service({
-         url: "/dictionaryDetail/updateSysDictionaryDetail",
-         method: 'put',
-         data
-     })
- }
+export const updateSysDictionaryDetail = (id, data) => {
+    return service({
+        url: `/dictionaryDetail/${id}`,
+        method: 'put',
+        data
+    })
+}
 
 // 用id查询SysDictionaryDetail
- export const findSysDictionaryDetail = (params) => {
-     return service({
-         url: "/dictionaryDetail/findSysDictionaryDetail",
-         method: 'GET',
-         params
-     })
- }
+export const findSysDictionaryDetail = (id) => {
+    return service({
+        url: `/dictionaryDetail/find/${id}`,
+        method: 'GET',
+    })
+}
 
 // 分页获取SysDictionaryDetail列表
- export const getSysDictionaryDetailList = (params) => {
-     return service({
-         url: "/dictionaryDetail/list",
-         method: 'GET',
-         params
-     })
- }
+export const getSysDictionaryDetailList = (params) => {
+    return service({
+        url: "/dictionaryDetail/list",
+        method: 'GET',
+        params
+    })
+}

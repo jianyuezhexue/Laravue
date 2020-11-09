@@ -10,8 +10,8 @@
         </el-form-item>
         <el-form-item label="启用状态" prop="status">
           <el-select v-model="searchInfo.status" placeholder="请选择">
-            <el-option key="true" label="是" value="true"></el-option>
-            <el-option key="false" label="否" value="false"></el-option>
+            <el-option key="true" label="是" value="1"></el-option>
+            <el-option key="false" label="否" value="0"></el-option>
           </el-select>
         </el-form-item>
         <el-form-item>
@@ -184,10 +184,10 @@ export default {
       this.getTableData();
     },
     async updateSysDictionaryDetail(row) {
-      const res = await findSysDictionaryDetail({ ID: row.ID });
+      const res = await findSysDictionaryDetail(row.id);
       this.type = "update";
       if (res.code == 200) {
-        this.formData = res.data.resysDictionaryDetail;
+        this.formData = res.data;
         this.dialogFormVisible = true;
       }
     },
@@ -198,12 +198,12 @@ export default {
         value: null,
         status: true,
         sort: null,
-        sysDictionaryID: ""
+        sys_dictionary_id: ""
       };
     },
     async deleteSysDictionaryDetail(row) {
       this.visible = false;
-      const res = await deleteSysDictionaryDetail({ ID: row.ID });
+      const res = await deleteSysDictionaryDetail(row.id);
       if (res.code == 200) {
         this.$message({
           type: "success",
@@ -213,7 +213,7 @@ export default {
       }
     },
     async enterDialog() {
-    this.formData.sysDictionaryID = Number(this.$route.params.id)
+    this.formData.sys_dictionary_id = Number(this.$route.params.id)
       this.$refs['elForm'].validate(async valid => {
         if (!valid) return
         let res;
@@ -222,7 +222,7 @@ export default {
             res = await createSysDictionaryDetail(this.formData);
             break;
           case "update":
-            res = await updateSysDictionaryDetail(this.formData);
+            res = await updateSysDictionaryDetail(this.formData.id,this.formData);
             break;
           default:
             res = await createSysDictionaryDetail(this.formData);

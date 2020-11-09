@@ -78,6 +78,11 @@ Route::namespace('App\Http\Controllers\System')->group(function () {
         Route::put('/{id}', 'DictionaryDetailController@update');
         Route::delete('/{id}', 'DictionaryDetailController@destroy');
     });
+    /** 操作日志 */
+    Route::group(['prefix' => 'accessLog', 'middleware' => ['auth.jwt']], function () {
+        Route::get('/list', 'AccessLogController@list');
+        Route::delete('/{id}', 'AccessLogController@destroy');
+    });
     /** 文件管理 */
     Route::group(['prefix' => 'file', 'middleware' => ['auth.jwt']], function () {
         Route::get('/', 'FileController@all');

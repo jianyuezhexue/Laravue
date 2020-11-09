@@ -66,6 +66,11 @@ class Controller extends BaseController
      */
     public function destroy(string $id)
     {
+        // 判断如果是数组
+        if (substr($id, 0, 1) == "[" && substr($id, -1, 1) == "]") {
+            $id = substr($id, 1, strlen($id) - 2);
+            $id = explode(",", $id);
+        }
         $result = $this->server->destroy($id);
         return response()->json($result);
     }

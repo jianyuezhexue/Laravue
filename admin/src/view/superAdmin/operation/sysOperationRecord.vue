@@ -36,14 +36,8 @@
       tooltip-effect="dark"
     >
       <el-table-column type="selection" width="55"></el-table-column>
-      <el-table-column label="操作人" width="140">
-        <template slot-scope="scope">
-          <div>{{scope.row.user.userName}}({{scope.row.user.nickName}})</div>
-        </template>
-      </el-table-column>
-      <el-table-column label="日期" width="180">
-        <template slot-scope="scope">{{scope.row.CreatedAt|formatDate}}</template>
-      </el-table-column>
+      <el-table-column label="操作人" prop="user_name" width="120"></el-table-column>
+      <el-table-column label="日期" prop="created_at" width="180"></el-table-column>
       <el-table-column label="状态码" prop="status" width="120">
         <template slot-scope="scope">
           <div>
@@ -54,6 +48,7 @@
       <el-table-column label="请求ip" prop="ip" width="120"></el-table-column>
       <el-table-column label="请求方法" prop="method" width="120"></el-table-column>
       <el-table-column label="请求路径" prop="path" width="240"></el-table-column>
+      <el-table-column label="请求耗时" prop="latency" width="120"></el-table-column>
       <el-table-column label="请求" prop="path" width="80">
         <template slot-scope="scope">
           <div>
@@ -170,21 +165,22 @@ export default {
       const ids = []
       this.multipleSelection &&
         this.multipleSelection.map(item => {
-          ids.push(item.ID)
+          ids.push(item.id)
         })
-      const res = await deleteSysOperationRecordByIds({ ids })
+      const res = await deleteSysOperationRecordByIds(JSON.stringify(ids))
       if (res.code == 200) {
         this.$message({
           type: 'success',
           message: '删除成功'
         })
         this.deleteVisible = false
+        this.page = 1
         this.getTableData()
       }
     },
     async deleteSysOperationRecord(row) {
       this.visible = false
-      const res = await deleteSysOperationRecord({ ID: row.ID })
+      const res = await deleteSysOperationRecord(row.id)
       if (res.code == 200) {
         this.$message({
           type: 'success',
