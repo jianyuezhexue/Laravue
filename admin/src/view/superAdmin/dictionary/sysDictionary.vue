@@ -13,12 +13,12 @@
                 <el-option
                     key="true"
                     label="是"
-                    value="true">
+                    value="1">
                 </el-option>
                 <el-option
                     key="false"
                     label="否"
-                    value="false">
+                    value="0">
                 </el-option>
             </el-select>
             </el-form-item>   
@@ -173,7 +173,7 @@ export default {
         this.$router.push({
           name:"dictionaryDetail",
           params:{
-            id:row.ID
+            id:row.id
           }
         })
       },

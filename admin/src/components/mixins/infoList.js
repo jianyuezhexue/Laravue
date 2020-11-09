@@ -10,13 +10,13 @@ export default {
         }
     },
     methods: {
-        filterDict(value,type){
-          const rowLabel = this[type+"Options"]&&this[type+"Options"].filter(item=>item.value == value)
-          return rowLabel&&rowLabel[0]&&rowLabel[0].label
+        filterDict(value, type) {
+            const rowLabel = this[type + "Options"] && this[type + "Options"].filter(item => item.value == value)
+            return rowLabel && rowLabel[0] && rowLabel[0].label
         },
-        async getDict(type){
+        async getDict(type) {
             const dicts = await getDict(type)
-            this[type+"Options"] = dicts
+            this[type + "Options"] = dicts
         },
         handleSizeChange(val) {
             this.pageSize = val
@@ -27,7 +27,11 @@ export default {
             this.getTableData()
         },
         async getTableData(page = this.page, pageSize = this.pageSize) {
-            const table = await this.listApi({ page, pageSize, ...this.searchInfo })
+            let search = {}
+            for (let key in this.searchInfo) {
+                if (this.searchInfo[key]) search[key] = this.searchInfo[key]
+            }
+            const table = await this.listApi({ page, pageSize, ...search })
             this.tableData = table.data.list
             this.total = table.data.total
             this.page = table.data.page

@@ -31,9 +31,8 @@
       tooltip-effect="dark"
     >
       <el-table-column type="selection" width="55"></el-table-column>
-      <el-table-column label="日期" width="180">
-        <template slot-scope="scope">{{scope.row.CreatedAt|formatDate}}</template>
-      </el-table-column>
+
+      <el-table-column label="日期" prop="created_at" width="180"></el-table-column>
 
       <el-table-column label="展示值" prop="label" width="120"></el-table-column>
 
@@ -246,7 +245,7 @@ export default {
     }
   },
   created() {
-    this.searchInfo.sysDictionaryID = this.$route.params.id
+    this.searchInfo.sys_dictionary_id = this.$route.params.id
     this.getTableData();
   }
 };
