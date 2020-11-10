@@ -68,7 +68,7 @@
         </el-form>
       </div>
 
-      <div class="footer">
+      <!-- <div class="footer">
         <div class="links">
           <a href="http://doc.henrongyi.top/"
             ><img src="@/assets/docs.png" class="link-icon"
@@ -86,7 +86,7 @@
         <div class="copyright">
           Copyright &copy; {{ curYear }} 💖flipped-aurora
         </div>
-      </div>
+      </div> -->
     </div>
   </div>
 </template>

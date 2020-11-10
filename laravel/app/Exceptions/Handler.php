@@ -48,7 +48,7 @@ class Handler extends ExceptionHandler
     public function render($request, Throwable $exception)
     {
         if ($exception instanceof UnauthorizedHttpException) {
-            return response()->json($this->failed(401, "未授权登录，请先登录", []));
+            return response()->json($this->failed(401, "未授权登录，请先登录", ["reload" => true]));
         }
 
         return parent::render($request, $exception);
