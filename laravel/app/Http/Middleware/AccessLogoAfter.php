@@ -26,7 +26,6 @@ class AccessLogoAfter
         }
 
         // 常规模式下记录增，改，删 用作审计记录
-        $temResponse = $response->original;
         $params = $request->all();
         $data = [
             'method' => $request->method(),
@@ -37,9 +36,9 @@ class AccessLogoAfter
             'latency' => round(microtime(true) - START, 3),
             'user_id' => (Auth::user())->id ?? '',
             'user_name' => (Auth::user())->username ?? '',
-            'resp' => $temResponse,
-            'status' => $temResponse['code'] ?? 200,
-            'error_message' => $temResponse['msg'] ?? "未捕获错误信息",
+            'resp' => $response->original,
+            'status' => ($response->original)['code'] ?? 200,
+            'error_message' => ($response->original)['msg'] ?? "未捕获错误信息",
         ];
 
         DB::beginTransaction();

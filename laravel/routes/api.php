@@ -23,7 +23,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 | 1.系统相关
 |--------------------------------------------------------------------------
 |
-| 系统相关：用户管理，菜单（路由）管理，角色管理，权限管理，
+| 系统相关：用户管理，菜单（路由）管理，角色管理，权限管理，自动化代码
 | 用户管理：注册/登录/修改密码/设置用户权限/删除用户/设置用户角色/分页获取用户列表
 | 菜单管理：
 | 角色管理：
@@ -82,6 +82,12 @@ Route::namespace('App\Http\Controllers\System')->group(function () {
     Route::group(['prefix' => 'accessLog', 'middleware' => ['auth.jwt']], function () {
         Route::get('/list', 'AccessLogController@list');
         Route::delete('/{id}', 'AccessLogController@destroy');
+    });
+    /** 自动化代码 */
+    Route::group(['prefix' => 'autoCode', 'middleware' => ['auth.jwt']], function () {
+        Route::delete('/getDB', 'AutoCodeController@destroy');
+        Route::delete('/getTables', 'AutoCodeController@destroy');
+        Route::delete('/getColumn', 'AutoCodeController@destroy');
     });
     /** 文件管理 */
     Route::group(['prefix' => 'file', 'middleware' => ['auth.jwt']], function () {
