@@ -44,6 +44,9 @@ class AutoCodeService extends Service
         // 组合命名空间和文件路径
         $middlePath =  $data['nameSpace'] . "\\" . $data['name'];
 
+        // 返回结果
+        $result = [Response::HTTP_OK, '批量代码生成成功！', []];
+        
         foreach ($autoCodeConfig as $value) {
             // 1.检查文件是否存在
             if (file_exists($value['path'] . $middlePath . $value['file'])) {
@@ -53,8 +56,6 @@ class AutoCodeService extends Service
             }
         }
 
-        // 返回结果
-        $result = [Response::HTTP_OK, '批量代码生成成功！', []];
         // 异常返回终止继续执行
         if ($result[0] != 200) {
             return $this->failed($result[0], $result[1], $result[2]);
