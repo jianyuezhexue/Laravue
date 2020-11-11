@@ -88,6 +88,7 @@ Route::namespace('App\Http\Controllers\System')->group(function () {
         Route::delete('/getDB', 'AutoCodeController@destroy');
         Route::delete('/getTables', 'AutoCodeController@destroy');
         Route::delete('/getColumn', 'AutoCodeController@destroy');
+        Route::post('/', 'AutoCodeController@autoCode');
     });
     /** 文件管理 */
     Route::group(['prefix' => 'file', 'middleware' => ['auth.jwt']], function () {
