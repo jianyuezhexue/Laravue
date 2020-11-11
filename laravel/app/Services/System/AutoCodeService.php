@@ -17,6 +17,8 @@ class AutoCodeService extends Service
      */
     public function autoCode(array $data)
     {
+        // 返回结果
+        $result = [Response::HTTP_OK, '批量代码生成成功！', []];
         // 模拟数据
         $data['nameSpace'] = "System";
         $data['name'] = "Test";
@@ -48,10 +50,17 @@ class AutoCodeService extends Service
         foreach ($autoCodeConfig as $value) {
             // 1.检查文件是否存在
             if (file_exists($value['path'] . $middlePath . $value['file'])) {
-                return $this->failed(Response::HTTP_INTERNAL_SERVER_ERROR, "{$data['name']}{$value['name']}类文件已经存在，请检查!");
+                $result[0] = Response::HTTP_INTERNAL_SERVER_ERROR;
+                $result[1] = "{$data['nameSpace']}/{$data['name']}{$value['file']}文件已经存在，请检查!";
+                break;
             }
-
-            // 2.控制器处理
+        }
+        // 异常返回终止继续执行
+        if ($result[0] != 200) {
+            return $this->failed($result[0], $result[1], $result[2]);
+        }
+        foreach ($autoCodeConfig as $value) {
+            // 2.文件生成处理
             // 2.1获取模板文件内容
             $tmpCtrollerPath = $tmpPath . $value['file'];
             $tmpContent = file_get_contents($tmpCtrollerPath);
@@ -68,5 +77,6 @@ class AutoCodeService extends Service
             fwrite($myFile, $newContent);
             fclose($myFile);
         }
+        return $this->success($result[0], $result[1], $result[2]);
     }
 }
