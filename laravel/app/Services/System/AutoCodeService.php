@@ -62,11 +62,11 @@ class AutoCodeService extends Service
 
         foreach ($autoCodeConfig as $value) {
             // 2.文件生成处理
-            // 2.1获取模板文件内容
+            // 获取模板文件内容
             $tmpCtrollerPath = $tmpPath . $value['file'];
             $tmpContent = file_get_contents($tmpCtrollerPath);
 
-            // 2.2替换文件内容
+            // 替换文件内容
             $newContent = str_replace("{{nameSpace}}", $data['nameSpace'], $tmpContent);         # 替换命名空间
             $newContent = str_replace("{{Template}}", $data['name'], $newContent);               # 替换类名
 
@@ -77,13 +77,21 @@ class AutoCodeService extends Service
                 $newContent = str_replace("{{columns}}", $data['columns'], $newContent);         # 替换模型列数据
             }
 
-            // 2.3输出文件 
+            // 输出文件 
             if (($myFile = fopen($value['path'] . $middlePath . $value['file'], "w+")) === false) {
-                return $this->failed(Response::HTTP_INTERNAL_SERVER_ERROR, "创建文件失败，请检查权限！");
+                $result[0] = Response::HTTP_INTERNAL_SERVER_ERROR;
+                $result[1] = "创建文件失败，请检查权限！";
+                break;
             }
             fwrite($myFile, $newContent);
             fclose($myFile);
         }
+
+        // 异常返回终止继续执行
+        if ($result[0] != 200) {
+            return $this->failed($result[0], $result[1], $result[2]);
+        }
+
         return $this->success($result[0], $result[1], $result[2]);
     }
 }
