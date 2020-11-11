@@ -17,25 +17,22 @@ class AutoCodeService extends Service
      */
     public function autoCode(array $data)
     {
-        // 返回结果
-        $result = [Response::HTTP_OK, '批量代码生成成功！', []];
-        // 模拟数据
-        $data['nameSpace'] = "System";
-        $data['name'] = "Test";
-
         // 文件配置数组
         $autoCodeConfig = [
             [
+                'type' => "Controller",
                 'file' => "Controller.php",
                 'path' => base_path() . "\\app\\Http\\Controllers\\",
                 'name' => "控制器"
             ],
             [
+                'type' => "Model",
                 'file' => "Model.php",
                 'path' => base_path() . "\\app\\Models\\",
                 'name' => "模型"
             ],
             [
+                'type' => "Service",
                 'file' => "Service.php",
                 'path' => base_path() . "\\app\\Services\\",
                 'name' => "服务"
@@ -55,10 +52,14 @@ class AutoCodeService extends Service
                 break;
             }
         }
+
+        // 返回结果
+        $result = [Response::HTTP_OK, '批量代码生成成功！', []];
         // 异常返回终止继续执行
         if ($result[0] != 200) {
             return $this->failed($result[0], $result[1], $result[2]);
         }
+
         foreach ($autoCodeConfig as $value) {
             // 2.文件生成处理
             // 2.1获取模板文件内容
@@ -66,9 +67,15 @@ class AutoCodeService extends Service
             $tmpContent = file_get_contents($tmpCtrollerPath);
 
             // 2.2替换文件内容
-            $newContent = str_replace("{{nameSpace}}", $data['nameSpace'], $tmpContent); # 替换命名空间
-            $newContent = str_replace("{{Template}}", $data['name'], $newContent);       # 替换类名
+            $newContent = str_replace("{{nameSpace}}", $data['nameSpace'], $tmpContent);         # 替换命名空间
+            $newContent = str_replace("{{Template}}", $data['name'], $newContent);               # 替换类名
+
             // model 需要特殊处理
+            if ($value['type'] == "Model") {
+                $newContent = str_replace("{{table}}", $data['table'], $newContent);             # 替换表名
+                $newContent = str_replace("{{primaryKey}}", $data['primaryKey'], $newContent);   # 替换主键
+                $newContent = str_replace("{{columns}}", $data['columns'], $newContent);         # 替换模型列数据
+            }
 
             // 2.3输出文件 
             if (($myFile = fopen($value['path'] . $middlePath . $value['file'], "w+")) === false) {
