@@ -4,6 +4,7 @@ namespace App\Services\System;
 
 use App\Services\Service;
 use App\Utils\ResultHelper;
+use Illuminate\Support\Facades\DB;
 use Symfony\Component\HttpFoundation\Response;
 
 class AutoCodeService extends Service
@@ -46,7 +47,7 @@ class AutoCodeService extends Service
 
         // 返回结果
         $result = [Response::HTTP_OK, '批量代码生成成功！', []];
-        
+
         foreach ($autoCodeConfig as $value) {
             // 1.检查文件是否存在
             if (file_exists($value['path'] . $middlePath . $value['file'])) {
@@ -94,5 +95,76 @@ class AutoCodeService extends Service
         }
 
         return $this->success($result[0], $result[1], $result[2]);
+    }
+
+    /**
+     * 获取所有DB
+     * @return ResultHelper
+     */
+    public function getDB()
+    {
+        try {
+            $dbs = DB::select('SHOW DATABASES');
+            $result = [];
+            foreach ($dbs as $value) {
+                // 过滤掉系统自带
+                if (!in_array($value->Database, ['information_schema', 'default', 'mysql', 'performance_schema', 'sys'])) {
+                    $result[] = ['database' => $value->Database];
+                }
+            }
+            $result = $this->success(Response::HTTP_OK, '获取分页数据成功！', ['dbs' => $result]);
+        } catch (\Exception $ex) {
+            $result = $this->failed(Response::HTTP_INTERNAL_SERVER_ERROR, $ex->getMessage());
+        }
+        return $result;
+    }
+
+    /**
+     * 根据库名找到所有表
+     * @param string $dbName
+     * @return ResultHelper
+     */
+    public function getTables(string $dbName)
+    {
+        try {
+            $query = "SELECT table_name FROM information_schema.tables WHERE TABLE_SCHEMA='$dbName'";
+            $tables = DB::select($query);
+            $result = [];
+            foreach ($tables as $value) {
+                $result[] = ['tableName' => $value->table_name];
+            }
+            $result = $this->success(Response::HTTP_OK, '获取分页数据成功！', ['tables' => $result]);
+        } catch (\Exception $ex) {
+            $result = $this->failed(Response::HTTP_INTERNAL_SERVER_ERROR, $ex->getMessage());
+        }
+        return $result;
+    }
+
+    /**
+     * 根据表名找到所有列
+     * @param array $data[dbName,tableName]
+     * @return ResultHelper
+     */
+    public function getColume(array $data)
+    {
+        $dbName = $data['dbName'];
+        $tableName = $data['tableName'];
+        try {
+            $query = "SELECT COLUMN_NAME,COLUMN_COMMENT,DATA_TYPE,CHARACTER_MAXIMUM_LENGTH FROM information_schema.COLUMNS WHERE TABLE_SCHEMA='$dbName' AND TABLE_NAME = '$tableName' ";
+            $columes = DB::select($query);
+            $result = [];
+            foreach ($columes as $value) {
+                $result[] = [
+                    'columnComment' => $value->COLUMN_COMMENT,
+                    'columnName' => $value->COLUMN_NAME,
+                    'dataType' => $value->DATA_TYPE,
+                    'dataTypeLong' => $value->CHARACTER_MAXIMUM_LENGTH,
+                ];
+            }
+            $result = $this->success(Response::HTTP_OK, '获取分页数据成功！', ['columns' => $result]);
+        } catch (\Exception $ex) {
+            $result = $this->failed(Response::HTTP_INTERNAL_SERVER_ERROR, $ex->getMessage());
+        }
+        return $result;
     }
 }
