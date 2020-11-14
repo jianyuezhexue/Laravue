@@ -112,7 +112,7 @@ class AutoCodeService extends Service
                     $result[] = ['database' => $value->Database];
                 }
             }
-            $result = $this->success(Response::HTTP_OK, '获取分页数据成功！', ['dbs' => $result]);
+            $result = $this->success(Response::HTTP_OK, '获取所有DB成功！', ['dbs' => $result]);
         } catch (\Exception $ex) {
             $result = $this->failed(Response::HTTP_INTERNAL_SERVER_ERROR, $ex->getMessage());
         }
@@ -133,7 +133,7 @@ class AutoCodeService extends Service
             foreach ($tables as $value) {
                 $result[] = ['tableName' => $value->table_name];
             }
-            $result = $this->success(Response::HTTP_OK, '获取分页数据成功！', ['tables' => $result]);
+            $result = $this->success(Response::HTTP_OK, '获取所有表成功！', ['tables' => $result]);
         } catch (\Exception $ex) {
             $result = $this->failed(Response::HTTP_INTERNAL_SERVER_ERROR, $ex->getMessage());
         }
@@ -155,13 +155,13 @@ class AutoCodeService extends Service
             $result = [];
             foreach ($columes as $value) {
                 $result[] = [
-                    'columnComment' => $value->COLUMN_COMMENT,
-                    'columnName' => $value->COLUMN_NAME,
+                    'columeComment' => $value->COLUMN_COMMENT,
+                    'columeName' => $value->COLUMN_NAME,
                     'dataType' => $value->DATA_TYPE,
                     'dataTypeLong' => $value->CHARACTER_MAXIMUM_LENGTH,
                 ];
             }
-            $result = $this->success(Response::HTTP_OK, '获取分页数据成功！', ['columns' => $result]);
+            $result = $this->success(Response::HTTP_OK, '获取所有列数据成功！', ['columes' => $result]);
         } catch (\Exception $ex) {
             $result = $this->failed(Response::HTTP_INTERNAL_SERVER_ERROR, $ex->getMessage());
         }

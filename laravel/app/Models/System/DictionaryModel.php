@@ -23,4 +23,10 @@ class DictionaryModel extends Model
         'created_at' => 'datetime:Y-m-d H:i:s',
         'status' => 'boolean',
     ];
+
+    // 关联子表
+    public function sysDictionaryDetails()
+    {
+        return $this->hasMany('App\Models\System\DictionaryDetailModel','sys_dictionary_id','id');
+    }
 }

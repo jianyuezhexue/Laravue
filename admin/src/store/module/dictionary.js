@@ -17,11 +17,11 @@ export const dictionary = {
             if (state.dictionaryMap[type]) {
                 return state.dictionaryMap[type]
             } else {
-                const res = await findSysDictionary({ type })
+                const res = await findSysDictionary(type)
                 if (res.code == 200) {
                     const dictionaryMap = {}
                     const dict = []
-                    res.data.resysDictionary.sysDictionaryDetails && res.data.resysDictionary.sysDictionaryDetails.map(item => {
+                    res.data.resysDictionary.sys_dictionary_details && res.data.resysDictionary.sys_dictionary_details.map(item => {
                         dict.push({
                             label: item.label,
                             value: item.value

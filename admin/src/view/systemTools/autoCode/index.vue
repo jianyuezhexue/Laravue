@@ -4,14 +4,24 @@
     <el-collapse v-model="activeNames">
       <el-collapse-item name="1">
         <template slot="title">
-          <div :style="{fontSize:'16px',paddingLeft:'20px'}">
+          <div :style="{ fontSize: '16px', paddingLeft: '20px' }">
             点这里从现有数据库创建代码
             <i class="header-icon el-icon-thumb"></i>
           </div>
         </template>
-        <el-form ref="getTableForm" :inline="true" :model="dbform" label-width="120px">
+        <el-form
+          ref="getTableForm"
+          :inline="true"
+          :model="dbform"
+          label-width="120px"
+        >
           <el-form-item label="数据库名" prop="structName">
-            <el-select @change="getTable" v-model="dbform.dbName" filterable placeholder="请选择数据库">
+            <el-select
+              @change="getTable"
+              v-model="dbform.dbName"
+              filterable
+              placeholder="请选择数据库"
+            >
               <el-option
                 v-for="item in dbOptions"
                 :key="item.database"
@@ -36,7 +46,9 @@
             </el-select>
           </el-form-item>
           <el-form-item>
-            <el-button @click="getColume" type="primary">使用此表创建</el-button>
+            <el-button @click="getColume" type="primary"
+              >使用此表创建</el-button
+            >
           </el-form-item>
         </el-form>
       </el-collapse-item>
@@ -44,23 +56,41 @@
 
     <el-divider></el-divider>
     <!-- 初始版本自动化代码工具 -->
-    <el-form ref="autoCodeForm" :rules="rules" :model="form" label-width="120px" :inline="true">
+    <el-form
+      ref="autoCodeForm"
+      :rules="rules"
+      :model="form"
+      label-width="120px"
+      :inline="true"
+    >
       <el-form-item label="Struct名称" prop="structName">
-        <el-input v-model="form.structName" placeholder="首字母自动转换大写"></el-input>
+        <el-input
+          v-model="form.structName"
+          placeholder="首字母自动转换大写"
+        ></el-input>
       </el-form-item>
       <el-form-item label="tableName" prop="tableName">
-        <el-input v-model="form.tableName" placeholder="指定表名（非必填）"></el-input>
+        <el-input
+          v-model="form.tableName"
+          placeholder="指定表名（非必填）"
+        ></el-input>
       </el-form-item>
       <el-form-item label="Struct简称" prop="abbreviation">
-        <el-input v-model="form.abbreviation" placeholder="简称会作为入参对象名和路由group"></el-input>
+        <el-input
+          v-model="form.abbreviation"
+          placeholder="简称会作为入参对象名和路由group"
+        ></el-input>
       </el-form-item>
       <el-form-item label="Struct中文名称" prop="description">
-        <el-input v-model="form.description" placeholder="中文描述作为自动api描述"></el-input>
+        <el-input
+          v-model="form.description"
+          placeholder="中文描述作为自动api描述"
+        ></el-input>
       </el-form-item>
       <el-form-item label="文件名称" prop="packageName">
         <el-input v-model="form.packageName"></el-input>
       </el-form-item>
-      <el-form-item label="自动创建api">
+      <el-form-item label="同时生成代码">
         <el-checkbox v-model="form.autoCreateApiToSql"></el-checkbox>
       </el-form-item>
     </el-form>
@@ -73,13 +103,41 @@
       <el-table-column prop="fieldName" label="Field名"></el-table-column>
       <el-table-column prop="fieldDesc" label="中文名"></el-table-column>
       <el-table-column prop="fieldJson" label="FieldJson"></el-table-column>
-      <el-table-column prop="fieldType" label="Field数据类型" width="130"></el-table-column>
-      <el-table-column prop="dataType" label="数据库字段类型" width="130"></el-table-column>
-      <el-table-column prop="dataTypeLong" label="数据库字段长度" width="130"></el-table-column>
-      <el-table-column prop="columnName" label="数据库字段" width="130"></el-table-column>
-      <el-table-column prop="comment" label="数据库字段描述" width="130"></el-table-column>
-      <el-table-column prop="fieldSearchType" label="搜索条件" width="130"></el-table-column>
-      <el-table-column prop="dictType" label="字典" width="130"></el-table-column>
+      <el-table-column
+        prop="fieldType"
+        label="Field数据类型"
+        width="130"
+      ></el-table-column>
+      <el-table-column
+        prop="dataType"
+        label="数据库字段类型"
+        width="130"
+      ></el-table-column>
+      <el-table-column
+        prop="dataTypeLong"
+        label="数据库字段长度"
+        width="130"
+      ></el-table-column>
+      <el-table-column
+        prop="columnName"
+        label="数据库字段"
+        width="130"
+      ></el-table-column>
+      <el-table-column
+        prop="comment"
+        label="数据库字段描述"
+        width="130"
+      ></el-table-column>
+      <el-table-column
+        prop="fieldSearchType"
+        label="搜索条件"
+        width="130"
+      ></el-table-column>
+      <el-table-column
+        prop="dictType"
+        label="字典"
+        width="130"
+      ></el-table-column>
       <el-table-column label="操作" width="300">
         <template slot-scope="scope">
           <el-button
@@ -87,26 +145,45 @@
             type="primary"
             icon="el-icon-edit"
             @click="editAndAddField(scope.row)"
-          >编辑</el-button>
+            >编辑</el-button
+          >
           <el-button
             size="mini"
             type="text"
             :disabled="scope.$index == 0"
             @click="moveUpField(scope.$index)"
-          >上移</el-button>
+            >上移</el-button
+          >
           <el-button
             size="mini"
             type="text"
-            :disabled="(scope.$index + 1) == form.fields.length"
+            :disabled="scope.$index + 1 == form.fields.length"
             @click="moveDownField(scope.$index)"
-          >下移</el-button>
+            >下移</el-button
+          >
           <el-popover placement="top" v-model="scope.row.visible">
             <p>确定删除吗？</p>
             <div style="text-align: right; margin: 0">
-              <el-button size="mini" type="text" @click="scope.row.visible = false">取消</el-button>
-              <el-button type="primary" size="mini" @click="deleteField(scope.$index)">确定</el-button>
+              <el-button
+                size="mini"
+                type="text"
+                @click="scope.row.visible = false"
+                >取消</el-button
+              >
+              <el-button
+                type="primary"
+                size="mini"
+                @click="deleteField(scope.$index)"
+                >确定</el-button
+              >
             </div>
-            <el-button size="mini" type="danger" icon="el-icon-delete" slot="reference">删除</el-button>
+            <el-button
+              size="mini"
+              type="danger"
+              icon="el-icon-delete"
+              slot="reference"
+              >删除</el-button
+            >
           </el-popover>
         </template>
       </el-table-column>
@@ -118,7 +195,11 @@
     </div>
     <!-- 组件弹窗 -->
     <el-dialog title="组件内容" :visible.sync="dialogFlag">
-      <FieldDialog v-if="dialogFlag" :dialogMiddle="dialogMiddle" ref="fieldDialog" />
+      <FieldDialog
+        v-if="dialogFlag"
+        :dialogMiddle="dialogMiddle"
+        ref="fieldDialog"
+      />
       <div slot="footer" class="dialog-footer">
         <el-button @click="closeDialog">取 消</el-button>
         <el-button type="primary" @click="enterDialog">确 定</el-button>
@@ -137,7 +218,7 @@ const fieldTemplate = {
   dataTypeLong: "",
   comment: "",
   fieldSearchType: "",
-  dictType:""
+  dictType: "",
 };
 
 import FieldDialog from "@/view/systemTools/autoCode/component/fieldDialog.vue";
@@ -152,7 +233,7 @@ export default {
       activeNames: [""],
       dbform: {
         dbName: "",
-        tableName: ""
+        tableName: "",
       },
       dbOptions: [],
       tableOptions: [],
@@ -165,33 +246,33 @@ export default {
         abbreviation: "",
         description: "",
         autoCreateApiToSql: false,
-        fields: []
+        fields: [],
       },
       rules: {
         structName: [
-          { required: true, message: "请输入结构体名称", trigger: "blur" }
+          { required: true, message: "请输入结构体名称", trigger: "blur" },
         ],
         abbreviation: [
-          { required: true, message: "请输入结构体简称", trigger: "blur" }
+          { required: true, message: "请输入结构体简称", trigger: "blur" },
         ],
         description: [
-          { required: true, message: "请输入结构体描述", trigger: "blur" }
+          { required: true, message: "请输入结构体描述", trigger: "blur" },
         ],
         packageName: [
           {
             required: true,
             message: "文件名称：sys_xxxx_xxxx",
-            trigger: "blur"
-          }
-        ]
+            trigger: "blur",
+          },
+        ],
       },
       dialogMiddle: {},
       bk: {},
-      dialogFlag: false
+      dialogFlag: false,
     };
   },
   components: {
-    FieldDialog
+    FieldDialog,
   },
   methods: {
     editAndAddField(item) {
@@ -223,7 +304,7 @@ export default {
       this.form.fields.splice(index, 0, oldDownField);
     },
     enterDialog() {
-      this.$refs.fieldDialog.$refs.fieldDialogFrom.validate(valid => {
+      this.$refs.fieldDialog.$refs.fieldDialogFrom.validate((valid) => {
         if (valid) {
           this.dialogMiddle.fieldName = toUpperCase(
             this.dialogMiddle.fieldName
@@ -250,26 +331,26 @@ export default {
       if (this.form.fields.length <= 0) {
         this.$message({
           type: "error",
-          message: "请填写至少一个field"
+          message: "请填写至少一个field",
         });
         return false;
       }
       if (
-        this.form.fields.some(item => item.fieldName == this.form.structName)
+        this.form.fields.some((item) => item.fieldName == this.form.structName)
       ) {
         this.$message({
           type: "error",
-          message: "存在与结构体同名的字段"
+          message: "存在与结构体同名的字段",
         });
         return false;
       }
-      this.$refs.autoCodeForm.validate(async valid => {
+      this.$refs.autoCodeForm.validate(async (valid) => {
         if (valid) {
           this.form.structName = toUpperCase(this.form.structName);
           if (this.form.structName == this.form.abbreviation) {
             this.$message({
               type: "error",
-              message: "structName和struct简称不能相同"
+              message: "structName和struct简称不能相同",
             });
             return false;
           }
@@ -322,11 +403,11 @@ export default {
         this.form.autoCreateApiToSql = true;
         this.form.fields = [];
         res.data.columes &&
-          res.data.columes.map(item => {
-            if (!gormModelList.some(gormfd => gormfd == item.columeName)) {
-              const fbHump = toHump(item.columeName);
+          res.data.columes.map((item) => {
+            if (!gormModelList.some((gormfd) => gormfd == item.columeName)) {
+              const fbHump = item.columeName;
               this.form.fields.push({
-                fieldName: toUpperCase(fbHump),
+                fieldName: item.columeName,
                 fieldDesc: item.columeComment || fbHump + "字段",
                 fieldType: this.fdMap[item.dataType],
                 dataType: item.dataType,
@@ -335,7 +416,7 @@ export default {
                 columnName: item.columeName,
                 comment: item.columeComment,
                 fieldSearchType: "",
-                dictType:""
+                dictType: "",
               });
             }
           });
@@ -343,18 +424,18 @@ export default {
     },
     async setFdMap() {
       const fdTpyes = ["string", "int", "bool", "float64", "time.Time"];
-      fdTpyes.map(async fdtype => {
+      fdTpyes.map(async (fdtype) => {
         const res = await getDict(fdtype);
-        res.map(item => {
+        res.map((item) => {
           this.fdMap[item.label] = fdtype;
         });
       });
-    }
+    },
   },
   created() {
     this.getDb();
     this.setFdMap();
-  }
+  },
 };
 </script>
 <style scope lang="scss">
