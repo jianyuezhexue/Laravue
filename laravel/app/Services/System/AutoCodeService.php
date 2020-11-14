@@ -48,8 +48,8 @@ class AutoCodeService extends Service
         // 返回结果
         $result = [Response::HTTP_OK, '批量代码生成成功！', []];
 
+        // 1.检查文件是否存在
         foreach ($autoCodeConfig as $value) {
-            // 1.检查文件是否存在
             if (file_exists($value['path'] . $middlePath . $value['file'])) {
                 $result[0] = Response::HTTP_INTERNAL_SERVER_ERROR;
                 $result[1] = "{$data['nameSpace']}/{$data['name']}{$value['file']}文件已经存在，请检查!";
@@ -62,8 +62,8 @@ class AutoCodeService extends Service
             return $this->failed($result[0], $result[1], $result[2]);
         }
 
+        // 2.文件生成处理
         foreach ($autoCodeConfig as $value) {
-            // 2.文件生成处理
             // 获取模板文件内容
             $tmpCtrollerPath = $tmpPath . $value['file'];
             $tmpContent = file_get_contents($tmpCtrollerPath);
@@ -79,7 +79,10 @@ class AutoCodeService extends Service
                 $newContent = str_replace("{{columns}}", $data['columns'], $newContent);         # 替换模型列数据
             }
 
-            // 输出文件 
+            // 打包到压缩包
+            # code...
+
+            // 输出本地文件 
             if (($myFile = fopen($value['path'] . $middlePath . $value['file'], "w+")) === false) {
                 $result[0] = Response::HTTP_INTERNAL_SERVER_ERROR;
                 $result[1] = "创建文件失败，请检查权限！";
@@ -93,6 +96,8 @@ class AutoCodeService extends Service
         if ($result[0] != 200) {
             return $this->failed($result[0], $result[1], $result[2]);
         }
+
+        // 3.如果需要建立数据库
 
         return $this->success($result[0], $result[1], $result[2]);
     }

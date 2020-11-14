@@ -90,7 +90,7 @@
       <el-form-item label="文件名称" prop="packageName">
         <el-input v-model="form.packageName"></el-input>
       </el-form-item>
-      <el-form-item label="同时生成代码">
+      <el-form-item label="同时代码实现">
         <el-checkbox v-model="form.autoCreateApiToSql"></el-checkbox>
       </el-form-item>
     </el-form>
