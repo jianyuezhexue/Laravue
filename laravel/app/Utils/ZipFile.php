@@ -10,8 +10,8 @@ trait ZipFile
     use ResultHelper;
     /**
      * 打包文件夹为 ZIP
-     * @param string $path
-     * @param string $filename
+     * @param string $path     ｜ 待打包的文件夹
+     * @param string $filename ｜ 生成的压缩文件路径+名字
      * @return string $filename
      */
     function addFileToZip($path, $filename)

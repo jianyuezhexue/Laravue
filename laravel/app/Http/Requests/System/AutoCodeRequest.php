@@ -30,6 +30,7 @@ class AutoCodeRequest extends BaseRequest
                         'table' => 'required',
                         'primaryKey' => 'required',
                         'columns' => 'required',
+                        'autoCode' => 'required',
                     ];
                 }
             case 'PUT': {
@@ -55,6 +56,7 @@ class AutoCodeRequest extends BaseRequest
             'table.required'      => '表名为必填！',
             'primaryKey.required' => '主键为必填！',
             'columns.required'    => '表列为必填！',
+            'autoCode.required'    => '是否生成本地代码为必填！',
         ];
     }
 }

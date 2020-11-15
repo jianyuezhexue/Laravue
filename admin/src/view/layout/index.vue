@@ -5,7 +5,7 @@
       <el-aside class="main-cont main-left">
         <div class="tilte">
           <img alt class="logoimg" src="~@/assets/nav_logo.png" />
-          <h2 class="tit-text" style="padding-left:15px;" v-if="isSider">REAL LIFE</h2>
+          <h2 class="tit-text" style="padding-left:15px;" v-if="isSider">Laravue</h2>
         </div>
         <Aside class="aside" />
       </el-aside>
