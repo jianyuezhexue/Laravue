@@ -4,12 +4,22 @@ namespace App\Services\System;
 
 use App\Services\Service;
 use App\Utils\ResultHelper;
+use App\Utils\ZipFile;
 use Illuminate\Support\Facades\DB;
 use Symfony\Component\HttpFoundation\Response;
 
 class AutoCodeService extends Service
 {
-    use ResultHelper;
+    use ResultHelper, ZipFile;
+
+    // 模板文件路径
+    protected $tmpPath = '';
+
+    public function __construct()
+    {
+        // 这里使用相对路径
+        $this->tmpPath = base_path() . "/resources/Template/";
+    }
 
     /**
      * 自动创建所有文件
@@ -23,27 +33,27 @@ class AutoCodeService extends Service
             [
                 'type' => "Controller",
                 'file' => "Controller.php",
-                'path' => base_path() . "\\app\\Http\\Controllers\\",
+                'path' => base_path() . "/app/Http/Controllers/",
                 'name' => "控制器"
             ],
             [
                 'type' => "Model",
                 'file' => "Model.php",
-                'path' => base_path() . "\\app\\Models\\",
+                'path' => base_path() . "/app/Models/",
                 'name' => "模型"
             ],
             [
                 'type' => "Service",
                 'file' => "Service.php",
-                'path' => base_path() . "\\app\\Services\\",
+                'path' => base_path() . "/app/Services/",
                 'name' => "服务"
             ],
         ];
 
         // 模板文件路径
-        $tmpPath = base_path() . "\\resources\\Template\\";
+        $tmpPath = base_path() . "/resources/Template/";
         // 组合命名空间和文件路径
-        $middlePath =  $data['nameSpace'] . "\\" . $data['name'];
+        $middlePath =  $data['nameSpace'] . "/" . $data['name'];
 
         // 返回结果
         $result = [Response::HTTP_OK, '批量代码生成成功！', []];
@@ -65,7 +75,7 @@ class AutoCodeService extends Service
         // 2.文件生成处理
         foreach ($autoCodeConfig as $value) {
             // 获取模板文件内容
-            $tmpCtrollerPath = $tmpPath . $value['file'];
+            $tmpCtrollerPath = $this->tmpPath . $value['file'];
             $tmpContent = file_get_contents($tmpCtrollerPath);
 
             // 替换文件内容
@@ -78,9 +88,6 @@ class AutoCodeService extends Service
                 $newContent = str_replace("{{primaryKey}}", $data['primaryKey'], $newContent);   # 替换主键
                 $newContent = str_replace("{{columns}}", $data['columns'], $newContent);         # 替换模型列数据
             }
-
-            // 打包到压缩包
-            # code...
 
             // 输出本地文件 
             if (($myFile = fopen($value['path'] . $middlePath . $value['file'], "w+")) === false) {
@@ -100,6 +107,19 @@ class AutoCodeService extends Service
         // 3.如果需要建立数据库
 
         return $this->success($result[0], $result[1], $result[2]);
+    }
+
+    public function autoCodeNew(array $data)
+    {
+        // 1.生成压缩包文件
+        $filename = $this->addFileToZip($this->tmpPath);
+        return $filename;
+
+        // 2.生成代码文件
+
+        // 3.创建数据库表
+
+        // 4.返回下载地址
     }
 
     /**

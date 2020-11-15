@@ -3,13 +3,12 @@ import service from '@/utils/request'
 // 分页获取角色列表
 export const createTemp = (data) => {
     return service({
-        url: "/autoCode/createTemp",
+        url: "/autoCode",
         method: 'POST',
         data,
-        responseType: 'blob'
+        // responseType: 'blob'
     })
 }
-
 
 // 获取当前所有数据库
 export const getDB = () => {
@@ -18,8 +17,6 @@ export const getDB = () => {
         method: 'GET',
     })
 }
-
-
 
 // 获取当前数据库所有表
 export const getTable = (params) => {
