@@ -118,6 +118,9 @@ class AutoCodeService extends Service
 
     public function autoCodeNew(array $data)
     {
+        /** 配置文件 */
+
+        /** 业务代码 */
         // 0.清除模板文件夹下所有文件
 
         // 1.生成模板文件
