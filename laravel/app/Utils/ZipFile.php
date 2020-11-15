@@ -12,7 +12,7 @@ trait ZipFile
      * 打包文件夹为 ZIP
      * @param string $path     ｜ 待打包的文件夹
      * @param string $filename ｜ 生成的压缩文件路径+名字
-     * @return string $filename
+     * @return ResultHelper $result
      */
     function addFileToZip($path, $filename)
     {
@@ -61,5 +61,32 @@ trait ZipFile
             }
         }
         return $result;
+    }
+
+    /**
+     * 清空/删除 文件夹
+     * @param string $dirname 文件夹路径
+     * @param bool $self 是否删除当前文件夹
+     * @return bool
+     */
+    function rmdir($dirname, $self = false)
+    {
+        if (!file_exists($dirname)) {
+            return false;
+        }
+        if (is_file($dirname) || is_link($dirname)) {
+            return unlink($dirname);
+        }
+        $dir = dir($dirname);
+        if ($dir) {
+            while (false !== $entry = $dir->read()) {
+                if ($entry == '.' || $entry == '..') {
+                    continue;
+                }
+                $this->rmdir($dirname . '/' . $entry);
+            }
+        }
+        $dir->close();
+        $self && rmdir($dirname);
     }
 }

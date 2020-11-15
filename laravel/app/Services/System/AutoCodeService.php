@@ -170,7 +170,9 @@ class AutoCodeService extends Service
             return $this->failed($result[0], $result[1], $result[2]);
         }
 
-        // 2.检查下载目录文件夹销毁文件
+        // 2.重置预下载目录|清空并新建tmp文件夹
+        $this->rmdir($zipPath);
+        mkdir($preTmpPath);
 
         /** 业务代码 */
         // 3.文件生成处理
