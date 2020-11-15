@@ -11,19 +11,17 @@ trait ZipFile
     /**
      * 打包文件夹为 ZIP
      * @param string $path
+     * @param string $filename
      * @return string $filename
      */
-    function addFileToZip($path)
+    function addFileToZip($path, $filename)
     {
         try {
-            /** 0.销毁tmp文件夹下所有文件 */
-
             /** 1.获取文件列表 */
             $datalist = $this->list_dir($path);
 
             /** 2.生成压缩包文件 */
             $zip = new \ZipArchive();
-            $filename = $path . "tmp/tmp.zip"; //最终生成的文件名（含路径)
             if ($zip->open($filename, \ZipArchive::CREATE) !== TRUE) {
                 return $this->failed(Response::HTTP_VERSION_NOT_SUPPORTED, "无法打开文件，或者文件创建失败");
             }

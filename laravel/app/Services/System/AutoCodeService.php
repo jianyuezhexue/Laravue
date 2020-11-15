@@ -118,15 +118,19 @@ class AutoCodeService extends Service
 
     public function autoCodeNew(array $data)
     {
-        // 1.生成压缩包文件
-        $filename = $this->addFileToZip($this->tmpPath);
+        // 0.清除模板文件夹下所有文件
+
+        // 1.生成模板文件
+
+        // 2.生成压缩包文件
+        $filename = $this->addFileToZip($this->tmpPath, "./tmp.zip");
         return $filename;
 
-        // 2.生成代码文件
+        // 3.生成代码文件
 
-        // 3.创建数据库表
+        // 4.创建数据库表
 
-        // 4.返回下载地址
+        // 5.返回下载地址
     }
 
     /**
