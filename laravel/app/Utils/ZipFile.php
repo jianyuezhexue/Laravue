@@ -23,7 +23,7 @@ trait ZipFile
             /** 2.生成压缩包文件 */
             $zip = new \ZipArchive();
             if ($zip->open($filename, \ZipArchive::CREATE) !== TRUE) {
-                return $this->failed(Response::HTTP_VERSION_NOT_SUPPORTED, "无法打开文件，或者文件创建失败");
+                return $this->failed(Response::HTTP_VERSION_NOT_SUPPORTED, "压缩文件无法打开，或者文件创建失败！");
             }
 
             /** 3.添加文件到压缩包 */

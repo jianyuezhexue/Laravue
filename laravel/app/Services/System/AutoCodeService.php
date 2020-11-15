@@ -207,7 +207,7 @@ class AutoCodeService extends Service
             }
 
             // 生成预下载文件
-            if (($myFile = fopen($zipPath . 'tmp/' . $value['name'] . $value['file'], "w+")) === false) {
+            if (($myFile = fopen($zipPath . 'tmp/' . $data['name'] . $value['file'], "w+")) === false) {
                 $result[0] = Response::HTTP_INTERNAL_SERVER_ERROR;
                 $result[1] = "创建文件失败，请检查权限！";
                 break;
