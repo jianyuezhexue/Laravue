@@ -10,7 +10,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class AutoCodeService extends Service
 {
-    use ResultHelper, ZipFile;
+    use ResultHelper;
 
     /**
      * 自动创建所有文件
@@ -153,6 +153,8 @@ class AutoCodeService extends Service
         $nameSpacePath =  $data['nameSpace'] . "/";
         // 组合命名空间和文件路径
         $middlePath =  $data['nameSpace'] . "/" . $data['name'];
+        // 初始化压缩文件封装类
+        $zipFile = new ZipFile();
 
         // 返回结果
         $result = [Response::HTTP_OK, '批量代码生成成功！', []];
@@ -171,7 +173,10 @@ class AutoCodeService extends Service
         }
 
         // 2.重置预下载目录|清空并新建tmp文件夹
-        $this->deldir($zipPath);
+        if (!is_dir($zipPath)) { // 考虑刚拉代码没有此文件夹的清空
+            mkdir($zipPath);
+        }
+        $zipFile->deldir($zipPath);
         mkdir($preTmpPath);
 
         /** 业务代码 */
@@ -222,12 +227,15 @@ class AutoCodeService extends Service
         }
 
         // 4.生成压缩包文件
-        $filename = $this->addFileToZip($preTmpPath, $zipPath . "tmp.zip");
-        return $filename;
+        $filename = $zipFile->addFileToZip($preTmpPath, $zipPath . "tmp.zip");
+        if ($filename['code'] !== 200) {
+            return $this->failed($filename['code'], $filename['msgÍ']);
+        }
 
         // 5.创建数据库表
 
         // 6.返回下载地址
+        return $this->success(Response::HTTP_OK, '批量生成文件成功！', $filename['data']);
     }
 
     /**

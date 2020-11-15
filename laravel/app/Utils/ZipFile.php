@@ -2,19 +2,17 @@
 
 namespace App\Utils;
 
-use App\Utils\ResultHelper;
 use Symfony\Component\HttpFoundation\Response;
 
-trait ZipFile
+class ZipFile
 {
-    use ResultHelper;
     /**
      * 打包文件夹为 ZIP
      * @param string $path     ｜ 待打包的文件夹
      * @param string $filename ｜ 生成的压缩文件路径+名字
      * @return ResultHelper $result
      */
-    function addFileToZip($path, $filename)
+    public function addFileToZip($path, $filename)
     {
         try {
             /** 1.获取文件列表 */
@@ -23,7 +21,7 @@ trait ZipFile
             /** 2.生成压缩包文件 */
             $zip = new \ZipArchive();
             if ($zip->open($filename, \ZipArchive::CREATE) !== TRUE) {
-                return $this->failed(Response::HTTP_VERSION_NOT_SUPPORTED, "压缩文件无法打开，或者文件创建失败！");
+                return ['code' => Response::HTTP_VERSION_NOT_SUPPORTED, "msg" => "压缩文件无法打开，或者文件创建失败！"];
             }
 
             /** 3.添加文件到压缩包 */
@@ -33,9 +31,9 @@ trait ZipFile
                 }
             }
             $zip->close(); //关闭 
-            $result = $this->$this->success(Response::HTTP_OK, "压缩文件夹成功！", $filename);
+            $result = ['code' => Response::HTTP_OK, 'msg' => "生成压缩文件成功！", 'data' => $filename];
         } catch (\Exception $ex) {
-            $result = $this->failed(Response::HTTP_INTERNAL_SERVER_ERROR, $ex->getMessage());
+            $result = ['code' => Response::HTTP_VERSION_NOT_SUPPORTED, "msg" => $ex->getMessage()];
         }
         return $result;
     }
