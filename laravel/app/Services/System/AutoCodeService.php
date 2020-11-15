@@ -171,7 +171,7 @@ class AutoCodeService extends Service
         }
 
         // 2.重置预下载目录|清空并新建tmp文件夹
-        $this->rmdir($zipPath);
+        $this->deldir($zipPath);
         mkdir($preTmpPath);
 
         /** 业务代码 */

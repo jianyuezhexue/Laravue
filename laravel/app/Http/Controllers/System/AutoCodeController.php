@@ -21,14 +21,10 @@ class AutoCodeController extends Controller
      * @param AutoCodeRequest $request
      * @return Response
      */
-    // TODO:测试完改回来
     public function autoCode(AutoCodeRequest $request)
-    // public function autoCode(Request $request)
     {
         $data = $request->all();
-        // TODO:测试完改回来
-        $result = $this->server->autoCode($data);
-        // $result = $this->server->autoCodeNew($data);
+        $result = $this->server->autoCodeNew($data);
         return response()->json($result);
     }
 
