@@ -52,6 +52,8 @@ class AutoCodeService extends Service
 
         // 模板文件路径
         $tmpPath = base_path() . "/resources/Template/";
+        // 命名空间路径
+        $nameSpacePath =  $data['nameSpace'] . "/";
         // 组合命名空间和文件路径
         $middlePath =  $data['nameSpace'] . "/" . $data['name'];
 
@@ -87,6 +89,11 @@ class AutoCodeService extends Service
                 $newContent = str_replace("{{table}}", $data['table'], $newContent);             # 替换表名
                 $newContent = str_replace("{{primaryKey}}", $data['primaryKey'], $newContent);   # 替换主键
                 $newContent = str_replace("{{columns}}", $data['columns'], $newContent);         # 替换模型列数据
+            }
+
+            // 检测命名空间文件夹｜存在｜创建
+            if (!is_dir($value['path'] . $nameSpacePath)) {
+                mkdir($value['path'] . $nameSpacePath);
             }
 
             // 输出本地文件 
