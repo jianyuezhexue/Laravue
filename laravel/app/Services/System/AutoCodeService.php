@@ -182,7 +182,7 @@ class AutoCodeService extends Service
         // 3.文件生成处理
         foreach ($autoCodeConfig as $value) {
             // 获取模板文件内容
-            $tmpCtrollerPath = $tmpPath . $value['file'];
+            $tmpCtrollerPath = $tmpPath . $value['type'] . ".tpl";
             $tmpContent = file_get_contents($tmpCtrollerPath);
 
             // 替换文件内容
