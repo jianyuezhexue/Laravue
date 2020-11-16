@@ -147,15 +147,14 @@ class AutoCodeService extends Service
         $tmpPath = base_path() . "/resources/Template/";
         // 生成的预下载文件夹路径
         $preTmpPath = base_path() . "/resources/autoCode/tmp/";
-        // 下载zip文件路径
+        // 生成下载zip文件路径
         $zipPath = base_path() . "/resources/autoCode/";
-        // 命名空间路径
+        // 命名空间路径（拼接用）
         $nameSpacePath =  $data['nameSpace'] . "/";
-        // 组合命名空间和文件路径
+        // 组合命名空间和文件路径（拼接用）
         $middlePath =  $data['nameSpace'] . "/" . $data['name'];
         // 初始化压缩文件封装类
         $zipFile = new ZipFile();
-
         // 返回结果
         $result = [Response::HTTP_OK, '批量代码生成成功！', []];
 
@@ -168,12 +167,12 @@ class AutoCodeService extends Service
                 break;
             }
         }
-        if ($result[0] != 200) { // 循环如果有错误跳出，必须返回，不能继续执行
+        if ($result[0] != 200) { // 循环中的异常判断
             return $this->failed($result[0], $result[1], $result[2]);
         }
 
         // 2.重置预下载目录|清空并新建tmp文件夹
-        if (!is_dir($zipPath)) { // 考虑刚拉代码没有此文件夹的清空
+        if (!is_dir($zipPath)) { // 考虑刚拉代码没有此文件夹的情况
             mkdir($zipPath);
         }
         $zipFile->deldir($zipPath);
@@ -206,7 +205,7 @@ class AutoCodeService extends Service
             if ($data['autoCode'] == 1 && in_array($value['type'], ['Controller', 'Model', 'Service', 'Route'])) { // TODO:后面追加前端的
                 if (($myFile = fopen($value['path'] . $middlePath . $value['file'], "w+")) === false) {
                     $result[0] = Response::HTTP_INTERNAL_SERVER_ERROR;
-                    $result[1] = "创建文件失败，请检查权限！";
+                    $result[1] = "autoCode创建文件失败，请检查权限！";
                     break;
                 }
                 fwrite($myFile, $newContent);
@@ -216,7 +215,7 @@ class AutoCodeService extends Service
             // 生成预下载文件
             if (($myFile = fopen($zipPath . 'tmp/' . $data['name'] . $value['file'], "w+")) === false) {
                 $result[0] = Response::HTTP_INTERNAL_SERVER_ERROR;
-                $result[1] = "创建文件失败，请检查权限！";
+                $result[1] = "预下载创建文件失败，请检查权限！";
                 break;
             }
             fwrite($myFile, $newContent);
@@ -229,7 +228,7 @@ class AutoCodeService extends Service
         // 4.生成压缩包文件
         $filename = $zipFile->addFileToZip($preTmpPath, $zipPath . "tmp.zip");
         if ($filename['code'] !== 200) {
-            return $this->failed($filename['code'], $filename['msgÍ']);
+            return $this->failed($filename['code'], $filename['msg']);
         }
 
         // 5.创建数据库表
