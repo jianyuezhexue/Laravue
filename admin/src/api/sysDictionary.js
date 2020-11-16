@@ -26,10 +26,10 @@ export const updateSysDictionary = (id, data) => {
     })
 }
 
-// 用id查询SysDictionary
-export const findSysDictionary = (id) => {
+// 用id或者type查询SysDictionary
+export const findSysDictionary = (type) => {
     return service({
-        url: `/dictionary/find/${id}`,
+        url: `/dictionary/find/${type}`,
         method: 'GET',
     })
 }
