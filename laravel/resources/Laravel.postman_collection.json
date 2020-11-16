@@ -1,0 +1,271 @@
+{
+	"info": {
+		"_postman_id": "c325c7c0-e40f-4c2c-b789-5c00e50903fc",
+		"name": "Laravel",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "用户",
+			"item": [
+				{
+					"name": "注册",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-token",
+								"type": "text",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVVUlEIjoiN2Q5Y2JhZWUtZWE3MC00MjVhLThhY2EtOGFhYjljZGFhNGIzIiwiSUQiOjEsIlVzZXJuYW1lIjoiYWRtaW4iLCJOaWNrTmFtZSI6Iui2hee6p-euoeeQhuWRmCIsIkF1dGhvcml0eUlkIjoiODg4IiwiQnVmZmVyVGltZSI6ODY0MDAsImV4cCI6MTYwNDIxMTY1MiwiaXNzIjoicW1QbHVzIiwibmJmIjoxNjAyNDA3NDMxfQ.zSU7PIAQXYR82uyDf5hXmOEUt1vj4Sjaw1d8jbDoZoA"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [],
+							"options": {
+								"formdata": {}
+							}
+						},
+						"url": {
+							"raw": "http://laravelvueadmin.com/api/user/register?username=admin1&password=123456",
+							"protocol": "http",
+							"host": [
+								"laravelvueadmin",
+								"com"
+							],
+							"path": [
+								"api",
+								"user",
+								"register"
+							],
+							"query": [
+								{
+									"key": "username",
+									"value": "admin1"
+								},
+								{
+									"key": "password",
+									"value": "123456"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "登录",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-token",
+								"type": "text",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVVUlEIjoiN2Q5Y2JhZWUtZWE3MC00MjVhLThhY2EtOGFhYjljZGFhNGIzIiwiSUQiOjEsIlVzZXJuYW1lIjoiYWRtaW4iLCJOaWNrTmFtZSI6Iui2hee6p-euoeeQhuWRmCIsIkF1dGhvcml0eUlkIjoiODg4IiwiQnVmZmVyVGltZSI6ODY0MDAsImV4cCI6MTYwNDIxMTY1MiwiaXNzIjoicW1QbHVzIiwibmJmIjoxNjAyNDA3NDMxfQ.zSU7PIAQXYR82uyDf5hXmOEUt1vj4Sjaw1d8jbDoZoA"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [],
+							"options": {
+								"formdata": {}
+							}
+						},
+						"url": {
+							"raw": "http://laravelvueadmin.com/api/user/login?username=admin&password=123456",
+							"protocol": "http",
+							"host": [
+								"laravelvueadmin",
+								"com"
+							],
+							"path": [
+								"api",
+								"user",
+								"login"
+							],
+							"query": [
+								{
+									"key": "username",
+									"value": "admin"
+								},
+								{
+									"key": "password",
+									"value": "123456"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "查询所有用户",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9sYXJhdmVsdnVlYWRtaW4uY29tXC9hcGlcL3VzZXJcL2xvZ2luIiwiaWF0IjoxNjA0NjQ2Njc5LCJleHAiOjE2MDQ4NjI2NzksIm5iZiI6MTYwNDY0NjY3OSwianRpIjoiRlZ0NGlPNGMzY25aRjVkciIsInN1YiI6MTQsInBydiI6IjYyNGVkYTliMGViMjFjN2FkMTQ4MDhhZjMzZjNkM2M0M2IwYWZiNGIifQ.HizC9ZEWH5zk8w9gcrVJkHAtHOm4cmYpQG_sCCVMMyY"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [],
+							"options": {
+								"formdata": {}
+							}
+						},
+						"url": {
+							"raw": "http://laravelvueadmin.com/api/user/list",
+							"protocol": "http",
+							"host": [
+								"laravelvueadmin",
+								"com"
+							],
+							"path": [
+								"api",
+								"user",
+								"list"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "查询所有菜单",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"type": "text",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9sYXJhdmVsdnVlYWRtaW4uY29tXC9hcGlcL3VzZXJcL2xvZ2luIiwiaWF0IjoxNjA0NzU2MDMyLCJleHAiOjE2MDQ5NzIwMzIsIm5iZiI6MTYwNDc1NjAzMiwianRpIjoiVEpxTm9qcVc3d1dNd3RmcyIsInN1YiI6MSwicHJ2IjoiNjI0ZWRhOWIwZWIyMWM3YWQxNDgwOGFmMzNmM2QzYzQzYjBhZmI0YiJ9.MX9hTMnJBnk5NwerG6w2LDBdpnfy2DTry7iVHaiJ5pU"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [],
+					"options": {
+						"formdata": {}
+					}
+				},
+				"url": {
+					"raw": "http://laravelvueadmin.com/api/menu/list",
+					"protocol": "http",
+					"host": [
+						"laravelvueadmin",
+						"com"
+					],
+					"path": [
+						"api",
+						"menu",
+						"list"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "查询所有日志",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9sYXJhdmVsdnVlYWRtaW4uY29tXC9hcGlcL3VzZXJcL2xvZ2luIiwiaWF0IjoxNjA0NzU2MDMyLCJleHAiOjE2MDQ5NzIwMzIsIm5iZiI6MTYwNDc1NjAzMiwianRpIjoiVEpxTm9qcVc3d1dNd3RmcyIsInN1YiI6MSwicHJ2IjoiNjI0ZWRhOWIwZWIyMWM3YWQxNDgwOGFmMzNmM2QzYzQzYjBhZmI0YiJ9.MX9hTMnJBnk5NwerG6w2LDBdpnfy2DTry7iVHaiJ5pU",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://laravelvueadmin.com/api/accessLog/list?page=1&pageSize=10",
+					"protocol": "http",
+					"host": [
+						"laravelvueadmin",
+						"com"
+					],
+					"path": [
+						"api",
+						"accessLog",
+						"list"
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "1"
+						},
+						{
+							"key": "pageSize",
+							"value": "10"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "自动化生成文件",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"type": "text",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9sYXJhdmVsdnVlYWRtaW4uY29tXC9hcGlcL3VzZXJcL2xvZ2luIiwiaWF0IjoxNjA1MDY5NTUzLCJleHAiOjE2MDUyODU1NTMsIm5iZiI6MTYwNTA2OTU1MywianRpIjoiUEJCdmJyWEhwZlFNYmRwdiIsInN1YiI6MSwicHJ2IjoiNjI0ZWRhOWIwZWIyMWM3YWQxNDgwOGFmMzNmM2QzYzQzYjBhZmI0YiJ9.5dkBCiQi1IBvNG2g-Fh-zWUSYa5F3jf3ggZJoqEbLc4"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "nameSpace",
+							"value": "System",
+							"type": "text"
+						},
+						{
+							"key": "name",
+							"value": "Test",
+							"type": "text"
+						},
+						{
+							"key": "table",
+							"value": "sys_test1",
+							"type": "text"
+						},
+						{
+							"key": "primaryKey",
+							"value": "id",
+							"type": "text"
+						},
+						{
+							"key": "columns",
+							"value": "[\"id\", \"created_at\", \"updated_at\", \"deleted_at\", \"name\", \"url\", \"tag\", \"key\"]",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://laravelvueadmin.com/api/autoCode",
+					"protocol": "http",
+					"host": [
+						"laravelvueadmin",
+						"com"
+					],
+					"path": [
+						"api",
+						"autoCode"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}
