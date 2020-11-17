@@ -23,4 +23,5 @@ npm run serve
 
 ## :cake: 联系作者
 欢迎各位大佬联系作者，协助使用，反馈错误
-![avatar](/markdown/author.jpg)
+
+![author-w70](/markdown/author.jpg)
