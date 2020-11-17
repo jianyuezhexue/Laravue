@@ -19,6 +19,9 @@ rm package-lock.json(选)
 npm install(提前配置好镜像地址)
 npm run serve
 
+/** 部署 */
+npm run build
+
 ```
 
 ## :cake: 联系作者
