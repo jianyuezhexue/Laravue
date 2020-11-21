@@ -260,7 +260,7 @@ export default {
       const res = await findSysDictionary(row.id);
       this.type = "update";
       if (res.code == 200) {
-        this.formData = res.data;
+        this.formData = res.data.resysDictionary;
         this.dialogFormVisible = true;
       }
     },
