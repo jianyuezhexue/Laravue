@@ -21,14 +21,17 @@ class DictionaryService extends Service
     }
 
     /**
-     * 根据父级Type获取子集所有数据
+     * 根据父级ID或者Type获取子集所有数据
      * @param string $type
      */
     public function find($type)
     {
         try {
-            // 先根据type找到父级id
-            $result = $this->model->where('type', $type)->with('sysDictionaryDetails')->first();
+            if (is_numeric($type)) {
+                $result = $this->model->where('id', $type)->first();
+            } else {
+                $result = $this->model->where('type', $type)->with('sysDictionaryDetails')->first();
+            }
             $result = $this->success(Response::HTTP_OK, '获取全部数据成功！', ["resysDictionary" => $result]);
         } catch (\Exception $ex) {
             $result = $this->failed(Response::HTTP_INTERNAL_SERVER_ERROR, $ex->getMessage());

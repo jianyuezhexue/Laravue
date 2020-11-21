@@ -10,6 +10,7 @@ class DictionaryDetailService extends Service
 {
     use ResultHelper;
     protected $model;
+    protected $sort = ['sort', 'asc'];
 
     public function __construct(DictionaryDetailModel $model)
     {

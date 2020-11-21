@@ -17,6 +17,13 @@ class Service
     protected $likeSearch = "";
 
     /**
+     * 排序规则[]
+     * 第一个值为排序字段
+     * 第二个值为排序规则 ASC|DESC
+     */
+    protected $sort = [];
+
+    /**
      * 获取所有数据
      * @param array $data
      * @return ResultHelper
@@ -41,12 +48,14 @@ class Service
     public function list(array $pageInfo, array $searchInfo)
     {
         try {
-            // 备注：这里的模糊查询不能命中索引，适合小数量数据查询
+            // 备注：这里的模糊查询不能命中索引，适合小数量数据查询,大数量查询请覆盖自己实现
             if ($this->likeSearch != "" && isset($searchInfo[$this->likeSearch])) {
                 $like = $searchInfo[$this->likeSearch];
                 unset($searchInfo[$this->likeSearch]);
                 $result = $this->model->where($searchInfo)->where($this->likeSearch, "like", "%" . $like . "%")
                     ->orderBy('id', 'desc')->paginate($pageInfo['pageSize'])->toArray();
+            } else if ($this->sort) {
+                $result = $this->model->where($searchInfo)->orderBy(($this->sort)[0], ($this->sort)[1])->paginate($pageInfo['pageSize'])->toArray();
             } else {
                 $result = $this->model->where($searchInfo)->orderBy('id', 'desc')->paginate($pageInfo['pageSize'])->toArray();
             }
