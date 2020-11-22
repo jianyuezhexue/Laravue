@@ -236,14 +236,14 @@ export default {
       addFlag: "",
       fdMap: {},
       form: {
-        nameSpace: "Business",
-        className: "",
-        tableName: "",
-        packageName: "",
-        primaryKey: "id",
-        columns: [],
-        autoCode: false,
-        fields: [],
+        nameSpace: "Business", // 命名空间
+        className: "",         // 类名
+        tableName: "",         // 表名
+        apiName: "",           // API地址名（小驼峰）
+        primaryKey: "id",      // 模型主键
+        columns: [],           // 模型列
+        autoCode: false,       // 是否直接生成代码
+        fields: [],            // 字段用于vue文件生成处理
       },
       rules: {
         nameSpace: [
@@ -389,7 +389,7 @@ export default {
         const tbHump = toHump(this.dbform.tableName);
         this.form.className = toUpperCase(tbHump);
         this.form.tableName = this.dbform.tableName;
-        this.form.packageName = tbHump;
+        this.form.apiName = tbHump;
         this.form.autoCode = false;
         this.form.fields = [];
         res.data.columes &&

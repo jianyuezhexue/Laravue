@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::namespace('App\Http\Controllers\{{nameSpace}}')->group(function () {
     /** {{Template}}管理 */
-    Route::group(['prefix' => '{{Template}}', 'middleware' => ['auth.jwt']], function () {
+    Route::group(['prefix' => '{{apiName}}', 'middleware' => ['auth.jwt']], function () {
         Route::get('/', '{{Template}}Controller@all');
         Route::get('/find/{id}', '{{Template}}Controller@find');
         Route::get('/list', '{{Template}}Controller@list');

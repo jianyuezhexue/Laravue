@@ -73,13 +73,13 @@ class AutoCodeService extends Service
 
             // 替换文件内容
             $newContent = str_replace("{{nameSpace}}", $data['nameSpace'], $tmpContent);         # 替换命名空间
-            $newContent = str_replace("{{Template}}", $data['className'], $newContent);               # 替换类名
+            $newContent = str_replace("{{Template}}", $data['className'], $newContent);          # 替换类名
 
             // model 需要特殊处理
             if ($value['type'] == "Model") {
-                $newContent = str_replace("{{table}}", $data['tableName'], $newContent);             # 替换表名
-                $newContent = str_replace("{{primaryKey}}", $data['primaryKey'], $newContent);   # 替换主键
-                $newContent = str_replace("{{columns}}", $data['columns'], $newContent);         # 替换模型列数据
+                $newContent = str_replace("{{table}}", $data['tableName'], $newContent);          # 替换表名
+                $newContent = str_replace("{{primaryKey}}", $data['primaryKey'], $newContent);    # 替换主键
+                $newContent = str_replace("{{columns}}", $data['columns'], $newContent);          # 替换模型列数据
             }
 
             // 检测命名空间文件夹｜存在｜创建
@@ -141,6 +141,12 @@ class AutoCodeService extends Service
                 'path' => base_path() . "/routes/",
                 'name' => "路由"
             ],
+            [
+                'type' => "Api",
+                'file' => "Api.js",
+                'path' => base_path() . "/routes/", // TODO:更换到前台地址
+                'name' => "前端API接口"
+            ],
         ];
 
         // 模板文件路径
@@ -196,6 +202,11 @@ class AutoCodeService extends Service
                 $newContent = str_replace("{{columns}}", $data['columns'], $newContent);         # 替换模型列数据
             }
 
+            // Route 和 Api 需要特殊处理
+            if ($value['type'] == "Api" || $value['type'] == "Route") {
+                $newContent = str_replace("{{apiName}}", $data['apiName'], $newContent);         # 替换路由小写
+            }
+
             // 检测命名空间文件夹｜不存在则创建
             if (!is_dir($value['path'] . $nameSpacePath)) {
                 mkdir($value['path'] . $nameSpacePath);
@@ -232,9 +243,6 @@ class AutoCodeService extends Service
         }
 
         // 5.创建数据库表
-
-        // 6.返回下载地址
-        // return $this->success(Response::HTTP_OK, '批量生成文件成功！', $filename['data']);
 
         // 6.输出二进制流文件(BLOB)
         $this->blobData($filename['data']);
