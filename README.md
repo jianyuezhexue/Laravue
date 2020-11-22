@@ -1,11 +1,6 @@
 # :tada: Laravue
 Laravel+vue+admin 实现了JWT鉴权，动态路由菜单管理，角色管理，权限管理，数据字典，一键生成crud代码,RESTful API风格,Laravel ORM,更多功能正在实现中，
 欢迎各位PR和issue
-
-## :cake: 特别鸣谢
-特别鸣谢[flipped-aurora](https://github.com/flipped-aurora地址)团队
-特别鸣谢[gin-vue-admin](https://github.com/flipped-aurora/gin-vue-admin)项目，如果大家有GO语言学习和需要GO语言的后台管理框架的，请[点击链接跳转](https://github.com/flipped-aurora/gin-vue-admin)
-
 ## :cake: 项目预览
 ###### 仪表盘
 ![index.png](https://i.loli.net/2020/11/22/JeApBcPHONZ3bsG.png)
@@ -62,3 +57,7 @@ npm run build
 | 微信 |
 | :---:| 
 | <img width="300" src="https://i.loli.net/2020/11/22/phXRNIdOtDf8lkS.jpg"> |
+
+## :cake: 特别鸣谢
+特别鸣谢[flipped-aurora](https://github.com/flipped-aurora地址)团队
+特别鸣谢[gin-vue-admin](https://github.com/flipped-aurora/gin-vue-admin)项目，如果大家有GO语言学习和需要GO语言的后台管理框架的，请[点击链接跳转](https://github.com/flipped-aurora/gin-vue-admin)
