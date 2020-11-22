@@ -46,7 +46,7 @@ class AutoCodeService extends Service
         // 命名空间路径
         $nameSpacePath =  $data['nameSpace'] . "/";
         // 组合命名空间和文件路径
-        $middlePath =  $data['nameSpace'] . "/" . $data['name'];
+        $middlePath =  $data['nameSpace'] . "/" . $data['className'];
 
         // 返回结果
         $result = [Response::HTTP_OK, '批量代码生成成功！', []];
@@ -55,7 +55,7 @@ class AutoCodeService extends Service
         foreach ($autoCodeConfig as $value) {
             if (file_exists($value['path'] . $middlePath . $value['file'])) {
                 $result[0] = Response::HTTP_INTERNAL_SERVER_ERROR;
-                $result[1] = "{$data['nameSpace']}/{$data['name']}{$value['file']}文件已经存在，请检查!";
+                $result[1] = "{$data['nameSpace']}/{$data['className']}{$value['file']}文件已经存在，请检查!";
                 break;
             }
         }
@@ -73,11 +73,11 @@ class AutoCodeService extends Service
 
             // 替换文件内容
             $newContent = str_replace("{{nameSpace}}", $data['nameSpace'], $tmpContent);         # 替换命名空间
-            $newContent = str_replace("{{Template}}", $data['name'], $newContent);               # 替换类名
+            $newContent = str_replace("{{Template}}", $data['className'], $newContent);               # 替换类名
 
             // model 需要特殊处理
             if ($value['type'] == "Model") {
-                $newContent = str_replace("{{table}}", $data['table'], $newContent);             # 替换表名
+                $newContent = str_replace("{{table}}", $data['tableName'], $newContent);             # 替换表名
                 $newContent = str_replace("{{primaryKey}}", $data['primaryKey'], $newContent);   # 替换主键
                 $newContent = str_replace("{{columns}}", $data['columns'], $newContent);         # 替换模型列数据
             }
@@ -152,7 +152,7 @@ class AutoCodeService extends Service
         // 命名空间路径（拼接用）
         $nameSpacePath =  $data['nameSpace'] . "/";
         // 组合命名空间和文件路径（拼接用）
-        $middlePath =  $data['nameSpace'] . "/" . $data['name'];
+        $middlePath =  $data['nameSpace'] . "/" . $data['className'];
         // 初始化压缩文件封装类
         $zipFile = new ZipFile();
         // 返回结果
@@ -163,7 +163,7 @@ class AutoCodeService extends Service
         foreach ($autoCodeConfig as $value) {
             if (file_exists($value['path'] . $middlePath . $value['file'])) {
                 $result[0] = Response::HTTP_INTERNAL_SERVER_ERROR;
-                $result[1] = "{$data['nameSpace']}/{$data['name']}{$value['file']}文件已经存在，请检查!";
+                $result[1] = "{$data['nameSpace']}/{$data['className']}{$value['file']}文件已经存在，请检查!";
                 break;
             }
         }
@@ -187,11 +187,11 @@ class AutoCodeService extends Service
 
             // 替换文件内容
             $newContent = str_replace("{{nameSpace}}", $data['nameSpace'], $tmpContent);         # 替换命名空间
-            $newContent = str_replace("{{Template}}", $data['name'], $newContent);               # 替换类名
+            $newContent = str_replace("{{Template}}", $data['className'], $newContent);          # 替换类名
 
             // model 需要特殊处理
             if ($value['type'] == "Model") {
-                $newContent = str_replace("{{table}}", $data['table'], $newContent);             # 替换表名
+                $newContent = str_replace("{{table}}", $data['tableName'], $newContent);         # 替换表名
                 $newContent = str_replace("{{primaryKey}}", $data['primaryKey'], $newContent);   # 替换主键
                 $newContent = str_replace("{{columns}}", $data['columns'], $newContent);         # 替换模型列数据
             }
@@ -213,7 +213,7 @@ class AutoCodeService extends Service
             }
 
             // 生成预下载文件
-            if (($myFile = fopen($zipPath . 'tmp/' . $data['name'] . $value['file'], "w+")) === false) {
+            if (($myFile = fopen($zipPath . 'tmp/' . $data['className'] . $value['file'], "w+")) === false) {
                 $result[0] = Response::HTTP_INTERNAL_SERVER_ERROR;
                 $result[1] = "预下载创建文件失败，请检查权限！";
                 break;

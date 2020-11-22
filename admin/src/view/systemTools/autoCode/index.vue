@@ -15,7 +15,7 @@
           :model="dbform"
           label-width="120px"
         >
-          <el-form-item label="数据库名" prop="structName">
+          <el-form-item label="数据库名" prop="className">
             <el-select
               @change="getTable"
               v-model="dbform.dbName"
@@ -30,7 +30,7 @@
               ></el-option>
             </el-select>
           </el-form-item>
-          <el-form-item label="表名" prop="structName">
+          <el-form-item label="表名" prop="className">
             <el-select
               v-model="dbform.tableName"
               :disabled="!dbform.dbName"
@@ -54,7 +54,8 @@
       </el-collapse-item>
     </el-collapse>
 
-    <el-divider></el-divider>
+    <!-- <el-divider></el-divider> -->
+    <br />
     <!-- 初始版本自动化代码工具 -->
     <el-form
       ref="autoCodeForm"
@@ -63,35 +64,23 @@
       label-width="120px"
       :inline="true"
     >
-      <el-form-item label="Struct名称" prop="structName">
+      <el-form-item label="nameSpace" prop="nameSpace">
+        <el-input v-model="form.nameSpace" placeholder="Business"></el-input>
+      </el-form-item>
+      <el-form-item label="ClassName" prop="className">
         <el-input
-          v-model="form.structName"
+          v-model="form.className"
           placeholder="首字母自动转换大写"
         ></el-input>
       </el-form-item>
       <el-form-item label="tableName" prop="tableName">
-        <el-input
-          v-model="form.tableName"
-          placeholder="指定表名（非必填）"
-        ></el-input>
+        <el-input v-model="form.tableName" placeholder="指定表名"></el-input>
       </el-form-item>
-      <el-form-item label="Struct简称" prop="abbreviation">
-        <el-input
-          v-model="form.abbreviation"
-          placeholder="简称会作为入参对象名和路由group"
-        ></el-input>
-      </el-form-item>
-      <el-form-item label="Struct中文名称" prop="description">
-        <el-input
-          v-model="form.description"
-          placeholder="中文描述作为自动api描述"
-        ></el-input>
-      </el-form-item>
-      <el-form-item label="文件名称" prop="packageName">
-        <el-input v-model="form.packageName"></el-input>
+      <el-form-item label="primaryKey" prop="primaryKey">
+        <el-input v-model="form.primaryKey" placeholder="id"></el-input>
       </el-form-item>
       <el-form-item label="同时代码实现">
-        <el-checkbox v-model="form.autoCreateApiToSql"></el-checkbox>
+        <el-checkbox v-model="form.autoCode"></el-checkbox>
       </el-form-item>
     </el-form>
     <!-- 组件列表 -->
@@ -101,8 +90,6 @@
     <el-table :data="form.fields" border stripe>
       <el-table-column type="index" label="序列" width="100"></el-table-column>
       <el-table-column prop="fieldName" label="Field名"></el-table-column>
-      <el-table-column prop="fieldDesc" label="中文名"></el-table-column>
-      <el-table-column prop="fieldJson" label="FieldJson"></el-table-column>
       <el-table-column
         prop="fieldType"
         label="Field数据类型"
@@ -188,7 +175,9 @@
         </template>
       </el-table-column>
     </el-table>
-    <el-tag type="danger">id , created_at , updated_at , deleted_at 会自动生成请勿重复创建</el-tag>
+    <el-tag type="danger"
+      >id , created_at , updated_at , deleted_at 会自动生成请勿重复创建</el-tag
+    >
     <!-- 组件列表 -->
     <div class="button-box clearflex">
       <el-button @click="enterForm" type="primary">生成代码包</el-button>
@@ -228,6 +217,9 @@ import { getDict } from "@/utils/dictionary";
 
 export default {
   name: "autoCode",
+  components: {
+    FieldDialog,
+  },
   data() {
     return {
       activeNames: [""],
@@ -240,39 +232,33 @@ export default {
       addFlag: "",
       fdMap: {},
       form: {
-        structName: "",
+        nameSpace: "Business",
+        className: "",
         tableName: "",
         packageName: "",
-        abbreviation: "",
-        description: "",
-        autoCreateApiToSql: false,
+        primaryKey: "id",
+        columns: [],
+        autoCode: false,
         fields: [],
       },
       rules: {
-        structName: [
+        nameSpace: [
+          { required: true, message: "请输入命名空间名称", trigger: "blur" },
+        ],
+        className: [
           { required: true, message: "请输入结构体名称", trigger: "blur" },
         ],
-        abbreviation: [
-          { required: true, message: "请输入结构体简称", trigger: "blur" },
+        tableName: [
+          { required: true, message: "请输入数据库表名称", trigger: "blur" },
         ],
-        description: [
-          { required: true, message: "请输入结构体描述", trigger: "blur" },
-        ],
-        packageName: [
-          {
-            required: true,
-            message: "文件名称：sys_xxxx_xxxx",
-            trigger: "blur",
-          },
+        primaryKey: [
+          { required: true, message: "请输入主键字段", trigger: "blur" },
         ],
       },
       dialogMiddle: {},
       bk: {},
       dialogFlag: false,
     };
-  },
-  components: {
-    FieldDialog,
   },
   methods: {
     editAndAddField(item) {
@@ -336,24 +322,22 @@ export default {
         return false;
       }
       if (
-        this.form.fields.some((item) => item.fieldName == this.form.structName)
+        this.form.fields.some((item) => item.fieldName == this.form.className)
       ) {
         this.$message({
           type: "error",
-          message: "存在与结构体同名的字段",
+          message: "存在与类同名的字段",
         });
         return false;
       }
+      var tmpArr = [];
+      this.form.fields.forEach(function (item) {
+        tmpArr.push(item.columnName);
+      });
+      this.form.columns = JSON.stringify(tmpArr);
       this.$refs.autoCodeForm.validate(async (valid) => {
         if (valid) {
-          this.form.structName = toUpperCase(this.form.structName);
-          if (this.form.structName == this.form.abbreviation) {
-            this.$message({
-              type: "error",
-              message: "structName和struct简称不能相同",
-            });
-            return false;
-          }
+          this.form.className = toUpperCase(this.form.className);
           const data = await createTemp(this.form);
           const blob = new Blob([data]);
           const fileName = "ginvueadmin.zip";
@@ -395,12 +379,10 @@ export default {
       const res = await getColume(this.dbform);
       if (res.code == 200) {
         const tbHump = toHump(this.dbform.tableName);
-        this.form.structName = toUpperCase(tbHump);
+        this.form.className = toUpperCase(tbHump);
         this.form.tableName = this.dbform.tableName;
         this.form.packageName = tbHump;
-        this.form.abbreviation = tbHump;
-        this.form.description = tbHump + "表";
-        this.form.autoCreateApiToSql = true;
+        this.form.autoCode = false;
         this.form.fields = [];
         res.data.columes &&
           res.data.columes.map((item) => {

@@ -26,8 +26,8 @@ class AutoCodeRequest extends BaseRequest
             case 'POST': {
                     return [
                         'nameSpace' => 'required',
-                        'name' => 'required',
-                        'table' => 'required',
+                        'className' => 'required',
+                        'tableName' => 'required',
                         'primaryKey' => 'required',
                         'columns' => 'required',
                         'autoCode' => 'required',
@@ -52,8 +52,8 @@ class AutoCodeRequest extends BaseRequest
     {
         return [
             'nameSpace.required'  => '模块为必填！',
-            'name.required'       => '类名为必填！',
-            'table.required'      => '表名为必填！',
+            'className.required'       => '类名为必填！',
+            'tableName.required'      => '表名为必填！',
             'primaryKey.required' => '主键为必填！',
             'columns.required'    => '表列为必填！',
             'autoCode.required'    => '是否生成本地代码为必填！',
