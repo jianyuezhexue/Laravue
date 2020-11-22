@@ -22,7 +22,7 @@ Laravel+vue+admin 实现了JWT鉴权，动态路由菜单管理，角色管理�
 cd Laravue
 cd laravel
 rm composer.lock(选)
-composer install
+composer install(提前配置好国内镜像地址)
 安装数据库(/database/laravel.sql)
 配置数据库（.env）
 
@@ -30,7 +30,7 @@ composer install
 cd Laravue
 cd admin
 rm package-lock.json(选)
-npm install(提前配置好镜像地址)
+npm install(提前配置好国内镜像地址)
 npm run serve
 
 /** 账户密码 */
