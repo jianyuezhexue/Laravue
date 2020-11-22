@@ -52,7 +52,7 @@ npm run build
 
 ```
 
-### 微信交流群
+### :cake: 微信交流群
 | 微信 |
 | :---:| 
 | <img width="300" src="https://i.loli.net/2020/11/22/phXRNIdOtDf8lkS.jpg"> |
