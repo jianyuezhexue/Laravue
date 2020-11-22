@@ -346,7 +346,7 @@ export default {
       this.$refs.autoCodeForm.validate(async (valid) => {
         if (valid) {
           this.form.className = toUpperCase(this.form.className);
-          const data = await createTemp(this.form);
+          const data = await createTemp(this.form).catch(res => console.log(res));
           const blob = new Blob([data]);
           const fileName = "Laravue.zip";
           if ("download" in document.createElement("a")) {
