@@ -1,5 +1,6 @@
 # :tada: Laravue
-Laravel+vue+admin 实现了JWT鉴权，动态路由菜单管理，角色管理，权限管理，数据字典，一键生成crud代码,更多功能正在实现中，欢迎各位PR和issue
+Laravel+vue+admin 实现了JWT鉴权，动态路由菜单管理，角色管理，权限管理，数据字典，一键生成crud代码,RESTful API风格,Laravel ORM,更多功能正在实现中，
+欢迎各位PR和issue
 
 ## :cake: 特别鸣谢
 特别鸣谢[flipped-aurora](https://github.com/flipped-aurora地址)团队
