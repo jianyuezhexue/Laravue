@@ -7,16 +7,16 @@ Laravel+vue+admin 实现了JWT鉴权，动态路由菜单管理，角色管理�
 
 ## :cake: 项目预览
 ###### 仪表盘
-![index](/markdown/index.png)
+![index.png](https://i.loli.net/2020/11/22/JeApBcPHONZ3bsG.png)
 
 ###### 菜单管理
-![index](/markdown/menu.png)
+![menu.png](https://i.loli.net/2020/11/22/EvgUVTZPJaIm6lN.png)
 
 ###### 角色管理
-![index](/markdown/role.png)
+![role.png](https://i.loli.net/2020/11/22/XR1dAuVchp2LQyD.png)
 
 ###### 数据字典
-![index](/markdown/zidian.png)
+![zidian.png](https://i.loli.net/2020/11/22/lTWLzi4BdU3A8oX.png)
 
 
 ## :cake: 启动步骤
@@ -54,10 +54,10 @@ npm run build
 ### 微信交流群
 | 微信 |
 | :---:| 
-| <img width="300" src="/markdown/author.jpg"> 
+| <img width="300" src="https://i.loli.net/2020/11/22/phXRNIdOtDf8lkS.jpg"> |
 
 ## :cake: 联系作者
 欢迎各位联系作者，协助使用，反馈错误,
 | 微信 |
 | :---:| 
-| <img width="300" src="/markdown/author.jpg"> 
+| <img width="300" src="https://i.loli.net/2020/11/22/phXRNIdOtDf8lkS.jpg"> |

@@ -89,7 +89,11 @@
     </div>
     <el-table :data="form.fields" border stripe>
       <el-table-column type="index" label="序列" width="100"></el-table-column>
-      <el-table-column prop="fieldName" label="Field名"></el-table-column>
+      <el-table-column
+        prop="fieldName"
+        width="120"
+        label="Field名"
+      ></el-table-column>
       <el-table-column
         prop="fieldType"
         label="Field数据类型"
@@ -330,17 +334,21 @@ export default {
         });
         return false;
       }
-      var tmpArr = [];
-      this.form.fields.forEach(function (item) {
-        tmpArr.push(item.columnName);
-      });
-      this.form.columns = JSON.stringify(tmpArr);
+      var tmpArr = ["id", "created_at", "updated_at", "deleted_at"];
+      if (this.form.columns.length <= 0) {
+        this.form.fields.forEach(function (item) {
+          tmpArr.push(item.columnName);
+        });
+        this.form.columns = JSON.stringify(tmpArr);
+      } else {
+        this.form.columns = JSON.stringify(tmpArr.concat(this.form.columns));
+      }
       this.$refs.autoCodeForm.validate(async (valid) => {
         if (valid) {
           this.form.className = toUpperCase(this.form.className);
           const data = await createTemp(this.form);
           const blob = new Blob([data]);
-          const fileName = "ginvueadmin.zip";
+          const fileName = "Laravue.zip";
           if ("download" in document.createElement("a")) {
             // 不是IE浏览器
             let url = window.URL.createObjectURL(blob);
@@ -388,6 +396,7 @@ export default {
           res.data.columes.map((item) => {
             if (!gormModelList.some((gormfd) => gormfd == item.columeName)) {
               const fbHump = item.columeName;
+              this.form.columns.push(item.columeName);
               this.form.fields.push({
                 fieldName: item.columeName,
                 fieldDesc: item.columeComment || fbHump + "字段",

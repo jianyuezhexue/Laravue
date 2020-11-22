@@ -1,12 +1,12 @@
 import service from '@/utils/request'
 
-// 分页获取角色列表
+// 下载代码文件
 export const createTemp = (data) => {
     return service({
         url: "/autoCode",
         method: 'POST',
         data,
-        // responseType: 'blob'
+        responseType: 'blob'
     })
 }
 

@@ -234,7 +234,10 @@ class AutoCodeService extends Service
         // 5.创建数据库表
 
         // 6.返回下载地址
-        return $this->success(Response::HTTP_OK, '批量生成文件成功！', $filename['data']);
+        // return $this->success(Response::HTTP_OK, '批量生成文件成功！', $filename['data']);
+
+        // 6.输出二进制流文件(BLOB)
+        $this->blobData($filename['data']);
     }
 
     /**
