@@ -1,5 +1,6 @@
 <template>
   <div>
+    <!-- 查询表单开始 -->
     <div class="search-term">
       <el-form :inline="true" :model="searchInfo" class="demo-form-inline">          
         <el-form-item>
@@ -20,35 +21,17 @@
         </el-form-item>
       </el-form>
     </div>
-    <el-table
-      :data="tableData"
-      @selection-change="handleSelectionChange"
-      border
-      ref="multipleTable"
-      stripe
-      style="width: 100%"
-      tooltip-effect="dark"
-    >
-    <el-table-column type="selection" width="55"></el-table-column>
-    <el-table-column label="日期" width="180">
-         <template slot-scope="scope">{{scope.row.CreatedAt|formatDate}}</template>
-    </el-table-column>
-    
-    <el-table-column label="文章标题" prop="title" width="120"></el-table-column> 
-    
-    <el-table-column label="文章描述" prop="desc" width="120"></el-table-column> 
-    
-    <el-table-column label="作者" width="120">
-         <template slot-scope="scope">{{scope.row.author|formatAuthor}}</template>
-    </el-table-column> 
-    
-    <el-table-column label="文章内容" prop="content" width="120"></el-table-column> 
-    
-    <!-- <el-table-column label="文章标签" prop="tagNames" width="120"></el-table-column> -->
-    <el-table-column label="文章标签" width="120">
-         <template slot-scope="scope">{{scope.row.tag|formatTag}}</template>
-    </el-table-column>  
-    
+    <!-- 查询表单结束 -->
+
+    <!-- 列表展示开始 -->
+    <el-table :data="tableData" @selection-change="handleSelectionChange" border ref="multipleTable" stripe style="width: 100%" tooltip-effect="dark">
+      <el-table-column type="selection" width="55"></el-table-column>
+      <el-table-column label="日期" prop="created_at" width="180"></el-table-column> 
+      <el-table-column label="文章标题" prop="title" width="120"></el-table-column> 
+      <el-table-column label="文章描述" prop="desc" width="120"></el-table-column> 
+      <el-table-column label="作者" prop="author" width="120"></el-table-column> 
+      <el-table-column label="文章内容" prop="content" width="120"></el-table-column> 
+      <el-table-column label="文章标签" prop="tag" width="120"></el-table-column> 
       <el-table-column label="按钮组">
         <template slot-scope="scope">
           <el-button @click="updateBusArticle(scope.row)" size="small" type="primary">变更</el-button>
@@ -63,46 +46,53 @@
         </template>
       </el-table-column>
     </el-table>
+    <el-pagination :current-page="page" :page-size="pageSize" :page-sizes="[10, 30, 50, 100]" :style="{float:'right',padding:'20px'}" :total="total" @current-change="handleCurrentChange" @size-change="handleSizeChange" layout="total, sizes, prev, pager, next, jumper"></el-pagination>
+    <!-- 列表展示结束 -->
 
-    <el-pagination
-      :current-page="page"
-      :page-size="pageSize"
-      :page-sizes="[10, 30, 50, 100]"
-      :style="{float:'right',padding:'20px'}"
-      :total="total"
-      @current-change="handleCurrentChange"
-      @size-change="handleSizeChange"
-      layout="total, sizes, prev, pager, next, jumper"
-    ></el-pagination>
+    <!-- 增改表单开始 -->
+      <el-dialog :before-close="closeDialog" :visible.sync="dialogFormVisible" title="表单操作">
+        <!-- 此处请使用表单生成器生成form填充 表单默认绑定 formData 如手动修改过请自行修改key -->
 
-    <el-dialog :before-close="closeDialog" :visible.sync="dialogFormVisible" title="表单操作">
-      <!-- 此处请使用表单生成器生成form填充 表单默认绑定 formData 如手动修改过请自行修改key -->
-      <formTable :formData="formData" :authorOptions="authorOptions" :tagOptions="tagOptions"></formTable>
+        <el-form ref="elForm" :model="formData" :rules="rules" size="mini" label-width="100px" label-position="left">
+        <el-form-item label="文章标题" prop="title">
+          <el-input v-model="formData.title" placeholder="请输入文章标题" clearable :style="{ width: '100%' }" ></el-input>
+        </el-form-item>
+        <el-form-item label="文章描述" prop="desc">
+          <el-input v-model="formData.desc" placeholder="请输入文章描述" clearable :style="{ width: '100%' }" ></el-input>
+        </el-form-item>
+        <el-form-item label="选择作者" prop="author">
+          <el-input v-model="formData.author" placeholder="请输入作者姓名" clearable :style="{ width: '100%' }"></el-input>
+        </el-form-item>
+        <el-form-item label="文章内容" prop="content">
+          <el-input v-model="formData.content" type="textarea" placeholder="请输入文章内容" :autosize="{ minRows: 4, maxRows: 4 }" :style="{ width: '100%' }"></el-input>
+        </el-form-item>
+        <el-form-item label="选择标签" prop="tag">
+          <el-input v-model="formData.tag" placeholder="请输入文章标签" clearable :style="{ width: '100%' }"></el-input>
+        </el-form-item>
+      </el-form>
       <div class="dialog-footer" slot="footer">
         <el-button @click="closeDialog">取 消</el-button>
         <el-button @click="enterDialog" type="primary">确 定</el-button>
       </div>
     </el-dialog>
+    <!-- 增改表单结束 -->
   </div>
 </template>
 
 <script>
 import {
     createBusArticle,
-    deleteBusArticle,
-    deleteBusArticleByIds,
     updateBusArticle,
     findBusArticle,
-    getBusArticleList
+    getBusArticleList,
+    deleteBusArticle
 } from "@/api/busArticle";  //  此处请自行替换地址
 import { formatTimeToStr } from "@/utils/data";
 import infoList from "@/components/mixins/infoList";
-import formTable from "./formTable.vue";
-var that;
+// import formTable from "./formTable.vue";
 export default {
   name: "BusArticle",
   mixins: [infoList],
-  components: {formTable},
   data() {
     return {
       listApi: getBusArticleList,
@@ -112,28 +102,15 @@ export default {
       deleteVisible: false,
       multipleSelection: [],
       formData: {
-        title:null,desc:null,author:null,content:null,tag:[],
-      }, 
-      authorOptions: [
-        {
-          label: "选项一",
-          value: 1,
-        },
-        {
-          label: "选项二",
-          value: 2,
-        },
-      ],
-      tagOptions: [
-        {
-          label: "选项一",
-          value: 1,
-        },
-        {
-          label: "选项二",
-          value: 2,
-        },
-      ],
+        title:'',desc:'',author:'',content:'',tag:'',
+      },
+      rules: {
+        title: [{ required: true, message: "请输入文章标题", trigger: "blur", }],
+        desc: [{ required: true, message: "请输入文章描述", trigger: "blur", }],
+        author: [{ required: true, message: "请输入作者", trigger: "blur", }],
+        content: [{ required: true, message: "请输入文章内容", trigger: "blur", }],
+        tag: [{ required: true, message: "请输入文章标签", trigger: "blur", }],
+      },
     };
   },
   filters: {
@@ -152,19 +129,6 @@ export default {
         return "";
       }
     },
-    formatAuthor:function(id){
-      let author = that.authorOptions.find(item => item.value == id)
-      return author.label
-    },
-    formatTag:function(str){
-      let ids = JSON.parse(str)
-      let tags = that.tagOptions.filter(item => ids.indexOf(item.value) != -1)
-      let tagNames = ""
-      tags.forEach(item => {
-        tagNames += item.label + "," 
-      })
-      return tagNames.substring(0,tagNames.length-1)
-    },
   },
   methods: {
       //条件搜索前端看此方法
@@ -180,9 +144,9 @@ export default {
         const ids = []
         this.multipleSelection &&
           this.multipleSelection.map(item => {
-            ids.push(item.ID)
+            ids.push(item.id)
           })
-        const res = await deleteBusArticleByIds({ ids })
+        const res = await deleteBusArticle({ ids })
         if (res.code == 200) {
           this.$message({
             type: 'success',
@@ -193,7 +157,7 @@ export default {
         }
       },
     async updateBusArticle(row) {
-      const res = await findBusArticle({ ID: row.ID });
+      const res = await findBusArticle(row.id);
       this.type = "update";
       if (res.code == 200) {
         this.formData = res.data.rebusArticle;
@@ -212,7 +176,7 @@ export default {
     },
     async deleteBusArticle(row) {
       this.visible = false;
-      const res = await deleteBusArticle({ ID: row.ID });
+      const res = await deleteBusArticle(row.id);
       if (res.code == 200) {
         this.$message({
           type: "success",
@@ -222,7 +186,6 @@ export default {
       }
     },
     async enterDialog() {
-      this.formData.tag = JSON.stringify(this.formData.tag);
       let res;
       switch (this.type) {
         case "create":
@@ -250,9 +213,6 @@ export default {
     }
   },
   async created() {
-    that = this;
-    await this.getDict("author");
-    await this.getDict("tag");
     await this.getTableData();
   }
 };

@@ -106,3 +106,14 @@ Route::namespace('Base')->group(function () {
 });
 
 /** 3.业务相关 */
+Route::namespace('App\Http\Controllers\Business')->group(function () {
+    /** DEMO文章管理 */
+    Route::group(['prefix' => 'busArticle', 'middleware' => ['auth.jwt']], function () {
+        Route::get('/', 'BusArticleController@all');
+        Route::get('/find/{id}', 'BusArticleController@find');
+        Route::get('/list', 'BusArticleController@list');
+        Route::post('/', 'BusArticleController@create');
+        Route::put('/{id}', 'BusArticleController@update');
+        Route::delete('/{id}', 'BusArticleController@destroy');
+    });
+});
