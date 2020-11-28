@@ -143,7 +143,7 @@ class AutoCodeService extends Service
             ],
             [
                 'type' => "Api",
-                'file' => "Api.js",
+                'file' => ".js",
                 'path' => base_path() . "/routes/", // TODO:更换到前台地址
                 'name' => "前端API接口"
             ],
@@ -224,7 +224,8 @@ class AutoCodeService extends Service
             }
 
             // 生成预下载文件
-            if (($myFile = fopen($zipPath . 'tmp/' . $data['className'] . $value['file'], "w+")) === false) {
+            $tmpClassName = $value['type'] === 'Api' ? $data['apiName'] : $data['className'];
+            if (($myFile = fopen($zipPath . 'tmp/' . $tmpClassName . $value['file'], "w+")) === false) {
                 $result[0] = Response::HTTP_INTERNAL_SERVER_ERROR;
                 $result[1] = "预下载创建文件失败，请检查权限！";
                 break;
