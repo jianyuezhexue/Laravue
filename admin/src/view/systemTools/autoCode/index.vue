@@ -335,14 +335,13 @@ export default {
         return false;
       }
       var tmpArr = ["id", "created_at", "updated_at", "deleted_at"];
-      if (this.form.columns.length <= 0) {
+      this.form.columns = JSON.stringify(tmpArr.concat(this.form.columns));
+      if (this.form.columns.length > 0) {
         this.form.fields.forEach(function (item) {
           tmpArr.push(item.columnName);
         });
-        this.form.columns = JSON.stringify(tmpArr);
-      } else {
-        this.form.columns = JSON.stringify(tmpArr.concat(this.form.columns));
       }
+      this.form.columns = JSON.stringify(tmpArr);
       this.$refs.autoCodeForm.validate(async (valid) => {
         if (valid) {
           this.form.className = toUpperCase(this.form.className);
