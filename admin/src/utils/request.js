@@ -30,7 +30,7 @@ const closeLoading = () => {
 //http request 拦截器
 service.interceptors.request.use(
     config => {
-        console.log(config)
+        // console.log(config)
         if (!config.donNotShowLoading) {
             showLoading()
         }
