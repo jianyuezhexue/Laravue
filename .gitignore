@@ -4,3 +4,4 @@ laravel/vendor/
 admin/debug.log
 laravel/.DS_Store
 laravel/resources/autoCode/
+laravel/.env
