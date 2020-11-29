@@ -147,6 +147,12 @@ class AutoCodeService extends Service
                 'path' => base_path() . "/routes/", // TODO:更换到前台地址
                 'name' => "前端API接口"
             ],
+            [
+                'type' => "index",
+                'file' => ".vue",
+                'path' => base_path() . "/routes/", // TODO:更换到前台地址
+                'name' => "前端API接口"
+            ],
         ];
 
         // 模板文件路径
@@ -207,6 +213,11 @@ class AutoCodeService extends Service
                 $newContent = str_replace("{{apiName}}", $data['apiName'], $newContent);         # 替换路由小写
             }
 
+            // VUE文件特殊处理
+            if ($value['type'] == "index") {
+                $newContent = $this->indexVueContent($newContent, $data['fields'], $data);       # vue文件内容处理
+            }
+
             // 检测命名空间文件夹｜不存在则创建
             if (!is_dir($value['path'] . $nameSpacePath)) {
                 mkdir($value['path'] . $nameSpacePath);
@@ -225,6 +236,13 @@ class AutoCodeService extends Service
 
             // 生成预下载文件
             $tmpClassName = $value['type'] === 'Api' ? $data['apiName'] : $data['className'];
+            if ($value['type'] === 'Api') {
+                $tmpClassName = $data['apiName'];     # API文件（小驼峰）
+            } else if ($value['type'] === 'index') {
+                $tmpClassName = 'index';              # index.vue
+            } else {
+                $tmpClassName = $data['className'];   # 后台文件
+            }
             if (($myFile = fopen($zipPath . 'tmp/' . $tmpClassName . $value['file'], "w+")) === false) {
                 $result[0] = Response::HTTP_INTERNAL_SERVER_ERROR;
                 $result[1] = "预下载创建文件失败，请检查权限！";
@@ -247,6 +265,78 @@ class AutoCodeService extends Service
 
         // 6.输出二进制流文件(BLOB)
         $this->blobData($filename['data']);
+    }
+
+    /**
+     * VUE文件内容循环处理
+     * @param string $newContent
+     * @param array $fileds
+     * @param array $data
+     * @return string $newContent
+     */
+    private function indexVueContent(string $newContent, array $fileds, array $data)
+    {
+        /** 1.替换搜索表单 */
+        $searchTmp = "<el-form-item><el-input v-model=\"searchInfo.{{fieldName}}\" placeholder=\"{{fieldDesc}}\" clearable :style=\"{ width: '100%' }\" ></el-input></el-form-item>" . PHP_EOL;
+        $searchRepalce = "";
+
+        /** 2.替换表单字段 */
+        $tableTmp = "<el-table-column label=\"{{fieldDesc}}\" prop=\"{{fieldName}}\" width=\"180\"></el-table-column>" . PHP_EOL;
+        $tableRepalce = "";
+
+        /** 3.替换弹窗表单 */
+        $formTmp = "<el-form-item label=\"{{fieldDesc}}\" prop=\"title\"><el-input v-model=\"formData.{{fieldName}}\" placeholder=\"请输入{{fieldDesc}}\" clearable :style=\"{ width: '100%' }\" ></el-input></el-form-item>" . PHP_EOL;
+        $formRepalce = "";
+
+        /** 4.替换formData*/
+        $formData = "";
+
+        /** 5.替换校验规则(必填)*/
+        $ruleTmp = "{{fieldName}}: [{ required: true, message: \"请输入{{fieldDesc}}\", trigger: \"blur\",}]," . PHP_EOL;
+        $ruleRepalce = "";
+
+        foreach ($fileds as $filed) {
+            // 搜索表单生成
+            if ($filed['fieldSearchType']) {
+                $searchOne = str_replace("{{fieldName}}", $filed['columnName'], $searchTmp);
+                $searchOne = str_replace("{{fieldDesc}}", $filed['fieldDesc'], $searchOne);
+            } else {
+                $searchOne = "";
+            }
+            $searchRepalce .= $searchOne;
+
+            // 数据表格生成
+            $tableOne = str_replace("{{fieldName}}", $filed['columnName'], $tableTmp);
+            $tableOne = str_replace("{{fieldDesc}}", $filed['fieldDesc'], $tableOne);
+            $tableRepalce .= $tableOne;
+
+            // 弹窗表单生成
+            $formOne = str_replace("{{fieldName}}", $filed['columnName'], $formTmp);
+            $formOne = str_replace("{{fieldDesc}}", $filed['fieldDesc'], $formOne);
+            $formRepalce .= $formOne;
+
+            // 生成formData
+            $formData .= $filed['fieldName'] . ":null,";
+
+            // 生成表单验证规则
+            $ruleOne = str_replace("{{fieldName}}", $filed['columnName'], $ruleTmp);
+            $ruleOne = str_replace("{{fieldDesc}}", $filed['fieldDesc'], $ruleOne);
+            $ruleRepalce .= $ruleOne;
+        }
+
+        // 集中替换
+        $newContent = str_replace("{{search}}", $searchRepalce, $newContent);
+        $newContent = str_replace("{{table}}", $tableRepalce, $newContent);
+        $newContent = str_replace("{{form}}", $formRepalce, $newContent);
+        $newContent = str_replace("{{formData}}", "{" . $formData . "}", $newContent);
+        $newContent = str_replace("{{rules}}", "{" . $ruleRepalce . "}", $newContent);
+
+        /** 6.替换API请求引入 */
+        $newContent = str_replace("{{apiName}}", $data['apiName'], $newContent);
+        /** 7.替换类名 */
+        $newContent = str_replace("{{className}}", $data['className'], $newContent);
+
+        return $newContent;
     }
 
     /**

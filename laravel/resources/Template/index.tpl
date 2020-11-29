@@ -3,12 +3,7 @@
     <!-- 查询表单开始 -->
     <div class="search-term">
       <el-form :inline="true" :model="searchInfo" class="demo-form-inline">
-        <el-form-item>
-          <el-input v-model="searchInfo.title" placeholder="文章标题" clearable :style="{ width: '100%' }" ></el-input>
-        </el-form-item> 
-        <el-form-item>
-          <el-input v-model="searchInfo.desc" placeholder="文章描述" clearable :style="{ width: '100%' }" ></el-input>
-        </el-form-item>           
+        {{search}}           
         <el-form-item>
           <el-button @click="onSubmit" type="primary">查询</el-button>
         </el-form-item>
@@ -31,20 +26,15 @@
     <!-- 列表展示开始 -->
     <el-table :data="tableData" @selection-change="handleSelectionChange" border ref="multipleTable" stripe style="width: 100%" tooltip-effect="dark">
       <el-table-column type="selection" width="55"></el-table-column>
-      <el-table-column label="日期" prop="created_at" width="180"></el-table-column> 
-      <el-table-column label="文章标题" prop="title" width="120"></el-table-column> 
-      <el-table-column label="文章描述" prop="desc" width="120"></el-table-column> 
-      <el-table-column label="作者" prop="author" width="120"></el-table-column> 
-      <el-table-column label="文章内容" prop="content" width="120"></el-table-column> 
-      <el-table-column label="文章标签" prop="tag" width="120"></el-table-column> 
+      {{table}}
       <el-table-column label="按钮组">
         <template slot-scope="scope">
-          <el-button @click="updateBusArticle(scope.row)" size="small" type="primary">变更</el-button>
+          <el-button @click="update{{className}}(scope.row)" size="small" type="primary">变更</el-button>
           <el-popover placement="top" width="160" v-model="scope.row.visible">
             <p>确定要删除吗？</p>
             <div style="text-align: right; margin: 0">
               <el-button size="mini" type="text" @click="scope.row.visible = false">取消</el-button>
-              <el-button type="primary" size="mini" @click="deleteBusArticle(scope.row)">确定</el-button>
+              <el-button type="primary" size="mini" @click="delete{{className}}(scope.row)">确定</el-button>
             </div>
             <el-button type="danger" icon="el-icon-delete" size="mini" slot="reference">删除</el-button>
           </el-popover>
@@ -56,21 +46,7 @@
     <!-- 增改表单开始 -->
       <el-dialog :before-close="closeDialog" :visible.sync="dialogFormVisible" title="表单操作">
         <el-form ref="elForm" :model="formData" :rules="rules" size="mini" label-width="100px" label-position="left">
-        <el-form-item label="文章标题" prop="title">
-          <el-input v-model="formData.title" placeholder="请输入文章标题" clearable :style="{ width: '100%' }" ></el-input>
-        </el-form-item>
-        <el-form-item label="文章描述" prop="desc">
-          <el-input v-model="formData.desc" placeholder="请输入文章描述" clearable :style="{ width: '100%' }" ></el-input>
-        </el-form-item>
-        <el-form-item label="选择作者" prop="author">
-          <el-input v-model="formData.author" placeholder="请输入作者姓名" clearable :style="{ width: '100%' }"></el-input>
-        </el-form-item>
-        <el-form-item label="文章内容" prop="content">
-          <el-input v-model="formData.content" type="textarea" placeholder="请输入文章内容" :autosize="{ minRows: 4, maxRows: 4 }" :style="{ width: '100%' }"></el-input>
-        </el-form-item>
-        <el-form-item label="文章标签" prop="tag">
-          <el-input v-model="formData.tag" placeholder="请输入文章内容" clearable :style="{ width: '100%' }"></el-input>
-        </el-form-item>
+        {{form}}
       </el-form>
       <div class="dialog-footer" slot="footer">
         <el-button @click="closeDialog">取 消</el-button>
@@ -83,35 +59,27 @@
 
 <script>
 import {
-    createBusArticle,
-    updateBusArticle,
-    findBusArticle,
-    getBusArticleList,
-    deleteBusArticle
-} from "@/api/busArticle";  //  此处请自行替换地址
+    create{{className}},
+    update{{className}},
+    find{{className}},
+    get{{className}}List,
+    delete{{className}}
+} from "@/api/{{apiName}}";  //  此处请自行替换地址
 import { formatTimeToStr } from "@/utils/data";
 import infoList from "@/components/mixins/infoList";
 export default {
-  name: "BusArticle",
+  name: "{{className}}",
   mixins: [infoList],
   data() {
     return {
-      listApi: getBusArticleList,
+      listApi: get{{className}}List,
       dialogFormVisible: false,
       visible: false,
       type: "",
       deleteVisible: false,
       multipleSelection: [],
-      formData: {
-        title:'',desc:'',author:'',content:'',tag:'',
-      },
-      rules: {
-        title: [{ required: true, message: "请输入文章标题", trigger: "blur", }],
-        desc: [{ required: true, message: "请输入文章描述", trigger: "blur", }],
-        author: [{ required: true, message: "请输入作者", trigger: "blur", }],
-        content: [{ required: true, message: "请输入文章内容", trigger: "blur", }],
-        tag: [{ required: true, message: "请输入文章标签", trigger: "blur", }],
-      },
+      formData: {{formData}},
+      rules: {{rules}},
     };
   },
   filters: {
@@ -147,7 +115,7 @@ export default {
           this.multipleSelection.map(item => {
             ids.push(item.id)
           })
-        const res = await deleteBusArticle(JSON.stringify(ids))
+        const res = await delete{{className}}(JSON.stringify(ids))
         if (res.code == 200) {
           this.$message({
             type: 'success',
@@ -157,21 +125,21 @@ export default {
           this.getTableData()
         }
       },
-    async updateBusArticle(row) {
-      const res = await findBusArticle(row.id);
+    async update{{className}}(row) {
+      const res = await find{{className}}(row.id);
       this.type = "update";
       if (res.code == 200) {
-        this.formData = res.data.rebusArticle;
+        this.formData = res.data.re{{apiName}};
         this.dialogFormVisible = true;
       }
     },
     closeDialog() {
       this.dialogFormVisible = false;
-      this.formData = {title:null,desc:null,author:null,content:null,tag:null};
+      this.formData = {{formData}};
     },
-    async deleteBusArticle(row) {
+    async delete{{className}}(row) {
       this.visible = false;
-      const res = await deleteBusArticle(row.id);
+      const res = await delete{{className}}(row.id);
       if (res.code == 200) {
         this.$message({
           type: "success",
@@ -184,13 +152,13 @@ export default {
       let res;
       switch (this.type) {
         case "create":
-          res = await createBusArticle(this.formData);
+          res = await create{{className}}(this.formData);
           break;
         case "update":
-          res = await updateBusArticle(this.formData);
+          res = await update{{className}}(this.formData);
           break;
         default:
-          res = await createBusArticle(this.formData);
+          res = await create{{className}}(this.formData);
           break;
       }
       if (res.code == 200) {
