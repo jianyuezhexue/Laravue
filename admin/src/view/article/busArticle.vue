@@ -2,7 +2,13 @@
   <div>
     <!-- 查询表单开始 -->
     <div class="search-term">
-      <el-form :inline="true" :model="searchInfo" class="demo-form-inline">          
+      <el-form :inline="true" :model="searchInfo" class="demo-form-inline">
+        <el-form-item>
+          <el-input v-model="searchInfo.title" placeholder="文章标题" clearable :style="{ width: '100%' }" ></el-input>
+        </el-form-item> 
+        <el-form-item>
+          <el-input v-model="searchInfo.desc" placeholder="文章描述" clearable :style="{ width: '100%' }" ></el-input>
+        </el-form-item>           
         <el-form-item>
           <el-button @click="onSubmit" type="primary">查询</el-button>
         </el-form-item>
@@ -64,8 +70,8 @@
         <el-form-item label="文章内容" prop="content">
           <el-input v-model="formData.content" type="textarea" placeholder="请输入文章内容" :autosize="{ minRows: 4, maxRows: 4 }" :style="{ width: '100%' }"></el-input>
         </el-form-item>
-        <el-form-item label="选择标签" prop="tag">
-          <el-input v-model="formData.tag" placeholder="请输入文章标签" clearable :style="{ width: '100%' }"></el-input>
+        <el-form-item label="文章标签" prop="tag">
+          <el-input v-model="formData.tag" placeholder="请输入文章内容" clearable :style="{ width: '100%' }"></el-input>
         </el-form-item>
       </el-form>
       <div class="dialog-footer" slot="footer">
@@ -163,13 +169,7 @@ export default {
     },
     closeDialog() {
       this.dialogFormVisible = false;
-      this.formData = {
-          title:null,
-          desc:null,
-          author:null,
-          content:null,
-          tag:[],
-      };
+      this.formData = {title:null,desc:null,author:null,content:null,tag:null};
     },
     async deleteBusArticle(row) {
       this.visible = false;
@@ -198,7 +198,7 @@ export default {
       if (res.code == 200) {
         this.$message({
           type:"success",
-          message:"创建/更改成功"
+          message:"操作成功"
         })
         this.closeDialog();
         this.getTableData();
