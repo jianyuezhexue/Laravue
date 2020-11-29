@@ -51,8 +51,6 @@
 
     <!-- 增改表单开始 -->
       <el-dialog :before-close="closeDialog" :visible.sync="dialogFormVisible" title="表单操作">
-        <!-- 此处请使用表单生成器生成form填充 表单默认绑定 formData 如手动修改过请自行修改key -->
-
         <el-form ref="elForm" :model="formData" :rules="rules" size="mini" label-width="100px" label-position="left">
         <el-form-item label="文章标题" prop="title">
           <el-input v-model="formData.title" placeholder="请输入文章标题" clearable :style="{ width: '100%' }" ></el-input>
@@ -89,7 +87,6 @@ import {
 } from "@/api/busArticle";  //  此处请自行替换地址
 import { formatTimeToStr } from "@/utils/data";
 import infoList from "@/components/mixins/infoList";
-// import formTable from "./formTable.vue";
 export default {
   name: "BusArticle",
   mixins: [infoList],
@@ -146,11 +143,11 @@ export default {
           this.multipleSelection.map(item => {
             ids.push(item.id)
           })
-        const res = await deleteBusArticle({ ids })
+        const res = await deleteBusArticle(JSON.stringify(ids))
         if (res.code == 200) {
           this.$message({
             type: 'success',
-            message: '删除成功'
+            message: '批量删除成功'
           })
           this.deleteVisible = false
           this.getTableData()
