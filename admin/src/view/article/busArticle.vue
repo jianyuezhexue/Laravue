@@ -189,7 +189,7 @@ export default {
           res = await createBusArticle(this.formData);
           break;
         case "update":
-          res = await updateBusArticle(this.formData);
+          res = await updateBusArticle(this.formData.id, this.formData);
           break;
         default:
           res = await createBusArticle(this.formData);
