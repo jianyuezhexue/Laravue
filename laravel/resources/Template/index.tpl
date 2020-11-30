@@ -129,7 +129,7 @@ export default {
       const res = await find{{className}}(row.id);
       this.type = "update";
       if (res.code == 200) {
-        this.formData = res.data.re{{apiName}};
+        this.formData = res.data;
         this.dialogFormVisible = true;
       }
     },
@@ -155,7 +155,7 @@ export default {
           res = await create{{className}}(this.formData);
           break;
         case "update":
-          res = await update{{className}}(this.formData);
+          res = await update{{className}}(this.formData.id, this.formData);
           break;
         default:
           res = await create{{className}}(this.formData);

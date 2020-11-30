@@ -163,7 +163,7 @@ export default {
       const res = await findBusArticle(row.id);
       this.type = "update";
       if (res.code == 200) {
-        this.formData = res.data.rebusArticle;
+        this.formData = res.data;
         this.dialogFormVisible = true;
       }
     },
@@ -189,7 +189,7 @@ export default {
           res = await createBusArticle(this.formData);
           break;
         case "update":
-          res = await updateBusArticle(this.formData);
+          res = await updateBusArticle(this.formData.id, this.formData);
           break;
         default:
           res = await createBusArticle(this.formData);
