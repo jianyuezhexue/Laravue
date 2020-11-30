@@ -48,6 +48,7 @@ npm run build
 ```
 
 ### :cake: 微信交流群
+加群请回复 `加群`
 | 微信 |
 | :---:| 
 | <img width="300" src="https://i.loli.net/2020/11/22/phXRNIdOtDf8lkS.jpg"> |
