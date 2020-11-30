@@ -155,7 +155,7 @@ export default {
           res = await create{{className}}(this.formData);
           break;
         case "update":
-          res = await update{{className}}(this.formData);
+          res = await update{{className}}(this.formData.id, this.formData);
           break;
         default:
           res = await create{{className}}(this.formData);
