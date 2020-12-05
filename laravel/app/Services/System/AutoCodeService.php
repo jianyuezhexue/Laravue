@@ -202,7 +202,7 @@ class AutoCodeService extends Service
         $searchRepalce = "";
 
         /** 2.替换表单字段 */
-        $tableTmp = "<el-table-column label=\"{{fieldDesc}}\" prop=\"{{fieldName}}\" width=\"180\"></el-table-column>" . PHP_EOL;
+        $tableTmp = "<el-table-column label=\"{{fieldDesc}}\" prop=\"{{fieldName}}\" width=\"120\"></el-table-column>" . PHP_EOL;
         $tableRepalce = "";
 
         /** 3.替换弹窗表单 */
