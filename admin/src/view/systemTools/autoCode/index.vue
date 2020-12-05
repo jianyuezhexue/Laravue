@@ -236,7 +236,7 @@ export default {
       addFlag: "",
       fdMap: {},
       form: {
-        nameSpace: "Business", // 命名空间
+        nameSpace: "", // 命名空间
         className: "",         // 类名
         tableName: "",         // 表名
         apiName: "",           // API地址名（小驼峰）
