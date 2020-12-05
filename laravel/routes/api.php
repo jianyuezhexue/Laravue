@@ -102,7 +102,16 @@ Route::namespace('App\Http\Controllers\System')->group(function () {
 });
 
 /** 2.基础数据 */
-Route::namespace('Base')->group(function () {
+Route::namespace('App\Http\Controllers\Base')->group(function () {
+    /** BaseArea管理 */
+    Route::group(['prefix' => 'baseArea', 'middleware' => ['auth.jwt']], function () {
+        Route::get('/', 'BaseAreaController@all');
+        Route::get('/find/{id}', 'BaseAreaController@find');
+        Route::get('/list', 'BaseAreaController@list');
+        Route::post('/', 'BaseAreaController@create');
+        Route::put('/{id}', 'BaseAreaController@update');
+        Route::delete('/{id}', 'BaseAreaController@destroy');
+    });
 });
 
 /** 3.业务相关 */
