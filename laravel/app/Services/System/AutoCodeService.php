@@ -49,13 +49,13 @@ class AutoCodeService extends Service
             [
                 'type' => "Api",
                 'file' => ".js",
-                'path' => base_path() . "/routes/", // TODO:更换到前台地址
+                'path' => $this->adminPath() . "/src/api/",
                 'name' => "前端API接口"
             ],
             [
                 'type' => "index",
                 'file' => ".vue",
-                'path' => base_path() . "/routes/", // TODO:更换到前台地址
+                'path' => $this->adminPath() . "/src/view/",
                 'name' => "前端API接口"
             ],
         ];
@@ -128,9 +128,21 @@ class AutoCodeService extends Service
                 mkdir($value['path'] . $nameSpacePath);
             }
 
-            // autoCode文件 
-            if ($data['autoCode'] == 1 && in_array($value['type'], ['Controller', 'Model', 'Service', 'Route'])) { // TODO:后面追加前端的
+            // 自动化代码实现
+            if ($data['autoCode'] == 1 && in_array($value['type'], ['Controller', 'Model', 'Service', 'Route'])) { # 后台代码自动生成
                 if (($myFile = fopen($value['path'] . $middlePath . $value['file'], "w+")) === false) {
+                    $result[0] = Response::HTTP_INTERNAL_SERVER_ERROR;
+                    $result[1] = "autoCode创建文件失败，请检查权限！";
+                    break;
+                }
+                fwrite($myFile, $newContent);
+                fclose($myFile);
+            }
+            if ($data['autoCode'] == 1 && in_array($value['type'], ['Api', 'index'])) {                            # 前台代码自动生成
+                $frontMiddlePatch = $value['type'] === 'Api' ?
+                    $data['apiName'] :
+                    $data['nameSpace'] . "/" . $data['className'] . "/index";
+                if (($myFile = fopen($value['path'] . $frontMiddlePatch . $value['file'], "w+")) === false) {
                     $result[0] = Response::HTTP_INTERNAL_SERVER_ERROR;
                     $result[1] = "autoCode创建文件失败，请检查权限！";
                     break;
@@ -242,6 +254,17 @@ class AutoCodeService extends Service
         $newContent = str_replace("{{className}}", $data['className'], $newContent);
 
         return $newContent;
+    }
+
+    /**
+     * 相对admin文件路径
+     * @return string $adminPath
+     */
+    private function adminPath()
+    {
+        $backPath = base_path();
+        $backPath = substr($backPath, 0, -7) . "admin/";
+        return $backPath;
     }
 
     /**
