@@ -127,6 +127,10 @@ class AutoCodeService extends Service
             if (!is_dir($value['path'] . $nameSpacePath)) {
                 mkdir($value['path'] . $nameSpacePath);
             }
+            // 前台检查模块文件夹 | 不存在则创建
+            if (in_array($value['type'], ['index']) &&  !is_dir($value['path'] . $nameSpacePath . $data['apiName'])) {
+                mkdir($value['path'] . $nameSpacePath . $data['apiName']);
+            }
 
             // 自动化代码实现
             if ($data['autoCode'] == 1 && in_array($value['type'], ['Controller', 'Model', 'Service', 'Route'])) { # 后台代码自动生成
@@ -141,7 +145,7 @@ class AutoCodeService extends Service
             if ($data['autoCode'] == 1 && in_array($value['type'], ['Api', 'index'])) {                            # 前台代码自动生成
                 $frontMiddlePatch = $value['type'] === 'Api' ?
                     $data['apiName'] :
-                    $data['nameSpace'] . "/" . $data['className'] . "/index";
+                    $data['nameSpace'] . "/" . $data['apiName'] . "/index";
                 if (($myFile = fopen($value['path'] . $frontMiddlePatch . $value['file'], "w+")) === false) {
                     $result[0] = Response::HTTP_INTERNAL_SERVER_ERROR;
                     $result[1] = "autoCode创建文件失败，请检查权限！";
