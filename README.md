@@ -1,6 +1,6 @@
 # :tada: Laravue
 Laravel+vue+admin 实现了JWT鉴权，动态路由菜单管理，角色管理，权限管理，数据字典，一键生成crud代码,RESTful API风格,Laravel ORM,更多功能正在实现中，
-欢迎各位PR和issue
+欢迎各位PR和issue，走过路过不要忘记点个 STAR !
 ## :cake: 项目预览
 ###### 仪表盘
 ![index.png](https://i.loli.net/2020/11/22/JeApBcPHONZ3bsG.png)
